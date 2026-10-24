@@ -1,0 +1,3218 @@
+# MASTER BUILD PROMPT — HALALENS
+
+You are an elite team consisting of:
+
+- Senior mobile application architect
+- Full-stack engineer
+- AI/ML engineer
+- Computer-vision/OCR engineer
+- Food science specialist
+- Halal ingredient research specialist
+- Multilingual NLP engineer
+- Database architect
+- UX/UI designer
+- Cybersecurity engineer
+- Product manager
+- Accessibility specialist
+- SEO/PWA specialist
+
+Your task is to DESIGN AND BUILD a production-quality multilingual mobile-first application called:
+
+# HALALENS
+
+Tagline:
+
+**Scan it. Understand it. Decide with confidence.**
+
+HALALENS helps consumers scan food and consumer-product packaging and understand whether the ingredients contain pork, pork derivatives, alcohol, animal-derived ingredients, questionable additives, or other ingredients relevant to halal dietary decisions.
+
+The application must NEVER pretend that absence of pork automatically means a product is halal.
+
+It must clearly distinguish:
+
+1. Pork status
+2. Ingredient halal assessment
+3. Halal certification
+4. Ingredients requiring source verification
+5. Overall confidence level
+
+The application should initially target:
+
+- European Union
+- United Kingdom
+- United States
+- Canada
+
+but its architecture must support worldwide expansion.
+
+---
+
+# 1. CORE PRODUCT EXPERIENCE
+
+A user should be able to open HALALENS and immediately choose:
+
+CAMERA SCAN
+
+BARCODE SCAN
+
+INGREDIENT SCAN
+
+SEARCH PRODUCT
+
+PORK CHECK
+
+HALAL CHECK
+
+E-NUMBER CHECK
+
+CERTIFICATION CHECK
+
+The fastest workflow must require no account.
+
+The primary action is:
+
+**SCAN A PRODUCT**
+
+The user can scan:
+
+- EAN-8
+- EAN-13
+- UPC-A
+- UPC-E
+- GTIN
+- QR Code
+- GS1 Digital Link
+- Data Matrix where supported
+- product ingredient label
+
+When a barcode is detected:
+
+1. Extract product identifier.
+2. Search HALALENS internal cache/database.
+3. Search approved external product data sources.
+4. Retrieve product information.
+5. Retrieve ingredients.
+6. Normalize ingredients.
+7. Run the HALALENS ingredient-analysis engine.
+8. Display results.
+
+Target perceived response time should be extremely fast.
+
+Use caching aggressively for previously analyzed products.
+
+---
+
+# 2. THE MOST IMPORTANT FEATURE — CAMERA INGREDIENT SCANNER
+
+Do NOT depend exclusively on barcodes.
+
+The user must be able to photograph the ingredient panel of ANY product.
+
+Example:
+
+A French chocolate package.
+
+User photographs:
+
+"Sucre, lait, beurre de cacao, émulsifiant: mono- et diglycérides d'acides gras..."
+
+HALALENS performs:
+
+IMAGE
+↓
+image preprocessing
+↓
+OCR
+↓
+language detection
+↓
+text cleanup
+↓
+ingredient segmentation
+↓
+ingredient normalization
+↓
+translation/semantic mapping
+↓
+ingredient knowledge-base matching
+↓
+risk classification
+↓
+explanation
+↓
+confidence calculation
+
+The scanner must handle curved packages, imperfect lighting, glare, small print, rotated labels, multiple columns and moderately blurry images.
+
+Provide cropping and retake controls.
+
+If OCR confidence is poor, tell the user instead of inventing ingredients.
+
+---
+
+# 3. MULTILINGUAL EUROPEAN ENGINE
+
+This is a fundamental competitive advantage.
+
+Do not design the system around English-only ingredient names.
+
+The system should initially understand ingredient labels in at least:
+
+English
+French
+German
+Spanish
+Italian
+Portuguese
+Dutch
+Polish
+Romanian
+Greek
+Swedish
+Danish
+Norwegian
+Finnish
+Czech
+Slovak
+Hungarian
+Bulgarian
+Croatian
+Slovenian
+Lithuanian
+Latvian
+Estonian
+Irish
+Maltese
+
+Also prioritize:
+
+Arabic
+Turkish
+Urdu
+
+Architect the language system so additional languages can be added without changing the core database.
+
+---
+
+# 4. CROSS-LANGUAGE INGREDIENT NORMALIZATION
+
+Do NOT create completely independent ingredient intelligence for every language.
+
+Create canonical ingredient records.
+
+Example canonical ingredient:
+
+ingredient_id:
+ING_GELATIN
+
+canonical_name:
+Gelatin
+
+aliases:
+
+English:
+gelatin
+gelatine
+
+French:
+gélatine
+gelatine
+
+German:
+gelatine
+
+Spanish:
+gelatina
+
+Italian:
+gelatina
+
+Portuguese:
+gelatina
+
+Dutch:
+gelatine
+
+Polish:
+żelatyna
+
+Arabic:
+جيلاتين
+
+Turkish:
+jelatin
+
+etc.
+
+Every recognized term maps to the SAME canonical ingredient ID.
+
+This allows one halal classification to work across dozens of languages.
+
+---
+
+# 5. INGREDIENT ONTOLOGY
+
+Create a professional ingredient knowledge graph rather than a basic keyword list.
+
+Every ingredient should support fields similar to:
+
+ingredient_id
+
+canonical_name
+
+scientific_name
+
+ingredient_family
+
+description
+
+common_uses
+
+E_number
+
+INS_number
+
+CAS_number where relevant
+
+synonyms
+
+alternative_spellings
+
+languages
+
+possible_sources
+
+plant_source_possible
+
+animal_source_possible
+
+synthetic_source_possible
+
+microbial_source_possible
+
+pork_source_possible
+
+insect_source_possible
+
+alcohol_related
+
+halal_status
+
+pork_status
+
+vegan_status if known
+
+vegetarian_status if known
+
+risk_level
+
+verification_required
+
+reason
+
+evidence_level
+
+source_references
+
+last_reviewed
+
+review_status
+
+expert_reviewed
+
+---
+
+# 6. HALAL CLASSIFICATION MODEL
+
+Never use only:
+
+HALAL
+HARAM
+
+Use nuanced classifications.
+
+Possible ingredient statuses:
+
+🟢 HALAL
+
+Generally considered permissible based on known source.
+
+🟢 PLANT-BASED
+
+Known plant-derived ingredient.
+
+🟢 SYNTHETIC/MINERAL
+
+No relevant animal source normally expected.
+
+🟡 SOURCE DEPENDENT
+
+Could originate from plant, animal, microbial or synthetic sources.
+
+🟠 MASHBOOH / QUESTIONABLE
+
+Origin or processing requires verification.
+
+🔴 NOT HALAL
+
+Known prohibited ingredient/source.
+
+🐷 PORK DERIVED
+
+Known pork-derived ingredient.
+
+⚪ UNKNOWN
+
+Insufficient evidence.
+
+---
+
+# 7. PORK DETECTOR
+
+Create a dedicated:
+
+## PORK CHECK MODE
+
+This is different from the complete halal analysis.
+
+Detect explicit and potentially pork-derived terms including multilingual synonyms and regional terminology.
+
+Examples include:
+
+pork
+pig
+porcine
+swine
+hog
+lard
+pork fat
+pork gelatin
+porcine gelatin
+
+French examples:
+
+porc
+graisse de porc
+gélatine porcine
+saindoux
+
+German examples:
+
+Schwein
+Schweinefleisch
+Schweinefett
+Schweinegelatine
+
+Spanish examples:
+
+cerdo
+grasa de cerdo
+gelatina porcina
+
+Italian examples:
+
+maiale
+grasso di maiale
+gelatina suina
+
+And equivalent terminology across supported languages.
+
+IMPORTANT:
+
+Do not mark an ambiguous ingredient as pork merely because it CAN theoretically be pork-derived.
+
+Instead say:
+
+**Possible animal-derived source — pork cannot be excluded from the label alone.**
+
+This distinction is critical.
+
+---
+
+# 8. ADDITIVE / E-NUMBER ENGINE
+
+Create a dedicated European additive database.
+
+Recognize formats including:
+
+E120
+E-120
+E 120
+E471
+E-471
+E 471
+
+and equivalent INS references where applicable.
+
+Each additive record should contain:
+
+E-number
+
+name
+
+aliases
+
+function
+
+possible origins
+
+animal-origin possibility
+
+pork-origin possibility
+
+halal classification
+
+reason
+
+source verification requirement
+
+confidence
+
+Example user result:
+
+E471
+
+Mono- and diglycerides of fatty acids
+
+STATUS:
+
+🟡 SOURCE DEPENDENT
+
+WHY:
+
+Can be manufactured from plant or animal-derived fats.
+
+PORK STATUS:
+
+⚠️ Pork origin cannot be determined from the E-number alone.
+
+RECOMMENDATION:
+
+Check halal certification or contact the manufacturer.
+
+Never automatically declare all E471 halal or haram.
+
+---
+
+# 9. INGREDIENT FAMILY DETECTION
+
+Create special detection logic for categories such as:
+
+Gelatin
+
+Collagen
+
+Lard
+
+Animal fats
+
+Mono/diglycerides
+
+Fatty acids
+
+Glycerin/glycerol
+
+Stearates
+
+Enzymes
+
+Rennet
+
+Lipase
+
+Pepsin
+
+Whey processing agents
+
+Cheese cultures
+
+Natural flavourings
+
+Artificial flavourings
+
+Smoke flavourings
+
+Confectionery glaze
+
+Shellac
+
+Carmine/cochineal
+
+Alcohol
+
+Ethanol
+
+Wine
+
+Rum flavouring
+
+Beer-derived ingredients
+
+Cooking wine
+
+Animal shortening
+
+Broth
+
+Stock
+
+Meat extracts
+
+Marshmallow gelatin
+
+Capsule shells
+
+---
+
+# 10. CONTEXTUAL ANALYSIS
+
+Do not analyze isolated words only.
+
+Understand phrases.
+
+Examples:
+
+"beef gelatin"
+
+must not be treated the same as:
+
+"pork gelatin"
+
+And:
+
+"vegetable mono- and diglycerides"
+
+provides more information than:
+
+"mono- and diglycerides"
+
+Similarly:
+
+"microbial rennet"
+
+differs from:
+
+"animal rennet."
+
+Context must override generic ingredient ambiguity when evidence is sufficiently explicit.
+
+---
+
+# 11. PRODUCT RESULT SCREEN
+
+The result screen must be extremely easy to understand.
+
+Example:
+
+# Nutella Biscuits
+
+[product image]
+
+BARCODE
+8000500310427
+
+🇫🇷 France
+
+## PORK CHECK
+
+🟢 NO DECLARED PORK INGREDIENT FOUND
+
+## HALAL INGREDIENT ANALYSIS
+
+🟡 VERIFY
+
+12 ingredients analyzed
+
+10 — No concern identified
+2 — Need source verification
+0 — Explicit pork ingredients detected
+
+CONFIDENCE
+87%
+
+Then:
+
+## Ingredients requiring attention
+
+E471
+🟡 Source dependent
+
+Natural flavour
+🟡 Source unclear
+
+Each ingredient should be expandable.
+
+---
+
+# 12. NEVER MAKE FALSE HALAL CERTIFICATION CLAIMS
+
+This is a mandatory safety/business rule.
+
+Do not show:
+
+"100% HALAL"
+
+unless the system has reliable evidence of recognized halal certification applicable to the specific product/market/version.
+
+Instead use:
+
+"NO PROHIBITED INGREDIENT IDENTIFIED"
+
+or
+
+"INGREDIENTS APPEAR COMPATIBLE"
+
+with appropriate confidence.
+
+Halal certification is separate from ingredient analysis.
+
+Create:
+
+CERTIFICATION STATUS
+
+✓ Certification verified
+
+or
+
+Certification not found
+
+or
+
+Certification requires verification.
+
+---
+
+# 13. HALAL CERTIFICATION DATABASE
+
+Design a certification authority database.
+
+Fields:
+
+certifier_id
+
+organization_name
+
+country
+
+logo
+
+website
+
+verification_url
+
+certification_scope
+
+recognized_regions
+
+status
+
+last_verified
+
+Products can contain:
+
+certifier_id
+certificate_number
+valid_from
+valid_until
+market
+evidence_url
+verification_status
+
+Never assume a logo visible on packaging is genuine.
+
+Allow users to photograph halal certification logos.
+
+AI can identify the probable certification body but label it:
+
+"Logo detected"
+
+until independently verified where possible.
+
+---
+
+# 14. PRODUCT DATABASE ARCHITECTURE
+
+Do NOT attempt to manually create every European and American product.
+
+Build an aggregated product-data architecture.
+
+Potential product information sources should include, subject to their current APIs, licenses and terms:
+
+Open Food Facts
+
+USDA FoodData Central
+
+GS1-compatible product identifiers/data where legally accessible
+
+Manufacturer-provided product information
+
+User-submitted product labels
+
+HALALENS verified product records
+
+Public/open government food datasets where appropriate
+
+Never scrape sources that prohibit scraping.
+
+Respect licensing and attribution requirements.
+
+---
+
+# 15. INTERNAL PRODUCT SCHEMA
+
+Create a `products` table.
+
+Suggested fields:
+
+id UUID
+
+gtin
+
+ean
+
+upc
+
+barcode_type
+
+name
+
+normalized_name
+
+brand
+
+manufacturer
+
+category
+
+subcategory
+
+market_country
+
+countries_sold
+
+package_size
+
+package_unit
+
+image_front
+
+image_back
+
+image_ingredients
+
+ingredients_raw
+
+ingredients_language
+
+ingredients_normalized
+
+allergens
+
+certification_claims
+
+external_source
+
+external_source_id
+
+source_license
+
+source_url
+
+data_quality_score
+
+last_product_update
+
+created_at
+
+updated_at
+
+---
+
+# 16. PRODUCT VERSIONING
+
+THIS IS ESSENTIAL.
+
+Food recipes change.
+
+The same product may have different formulations in:
+
+France
+Germany
+USA
+UK
+
+and may change over time.
+
+Therefore create:
+
+product_versions
+
+version_id
+
+product_id
+
+market
+
+ingredient_text
+
+ingredient_hash
+
+package_image
+
+first_seen
+
+last_seen
+
+verified_date
+
+source
+
+Do not assume a barcode's historical ingredient list is permanently correct.
+
+Display:
+
+"Ingredient data last verified: [date]"
+
+when available.
+
+---
+
+# 17. INGREDIENT TABLE
+
+Create:
+
+ingredients
+
+ingredient_id
+
+canonical_name
+
+scientific_name
+
+category
+
+e_number
+
+ins_number
+
+description
+
+risk_level
+
+default_halal_status
+
+default_pork_status
+
+source_dependent
+
+notes
+
+evidence_quality
+
+last_reviewed
+
+---
+
+# 18. INGREDIENT TRANSLATIONS
+
+Create:
+
+ingredient_aliases
+
+alias_id
+
+ingredient_id
+
+language_code
+
+alias
+
+normalized_alias
+
+region
+
+confidence
+
+Example:
+
+ING_GELATIN
+
+en → gelatin
+
+fr → gélatine
+
+de → Gelatine
+
+es → gelatina
+
+it → gelatina
+
+pl → żelatyna
+
+tr → jelatin
+
+ar → جيلاتين
+
+One ingredient can have hundreds of multilingual aliases.
+
+---
+
+# 19. INGREDIENT SOURCES
+
+Create:
+
+ingredient_sources
+
+source_id
+
+ingredient_id
+
+source_type
+
+species
+
+plant
+
+animal
+
+microbial
+
+synthetic
+
+possible_pork
+
+likelihood
+
+processing_notes
+
+reference
+
+---
+
+# 20. KNOWLEDGE GRAPH
+
+Create relationships.
+
+Example:
+
+E471
+↓
+mono/diglycerides
+↓
+fatty-acid source
+↓
+PLANT OR ANIMAL
+↓
+animal species sometimes unspecified
+↓
+SOURCE VERIFICATION REQUIRED
+
+This graph should power explanations.
+
+---
+
+# 21. DATA SOURCE PRIORITY
+
+When conflicting product data exists, apply provenance and freshness scoring.
+
+Suggested priority:
+
+1. Current packaging photographed by user
+2. Manufacturer-confirmed current formulation
+3. Verified certification record
+4. Trusted structured product database
+5. Recent verified community contribution
+6. Older external record
+7. AI inference
+
+Never allow AI inference to silently overwrite verified factual data.
+
+---
+
+# 22. AI MUST NOT HALLUCINATE INGREDIENTS
+
+Critical rule:
+
+AI can interpret text.
+
+AI cannot invent missing label information.
+
+If OCR reads:
+
+"E47?"
+
+the system should return:
+
+"Additive number unclear. Please retake the photo."
+
+NOT:
+
+"E471"
+
+unless confidence is sufficient and the user can see that a correction was inferred.
+
+---
+
+# 23. CONFIDENCE ENGINE
+
+Every analysis should calculate confidence based on:
+
+OCR confidence
+
+language-detection confidence
+
+ingredient matching confidence
+
+product freshness
+
+data-source reliability
+
+certification evidence
+
+ingredient-source ambiguity
+
+manufacturer confirmation
+
+Use separate confidence values internally.
+
+Do not create fake precision.
+
+User-facing levels may be:
+
+HIGH CONFIDENCE
+
+MEDIUM CONFIDENCE
+
+LOW CONFIDENCE
+
+with optional numerical estimates only when meaningful.
+
+---
+
+# 24. CAMERA OVERLAY
+
+Create a premium camera experience.
+
+Show overlay:
+
+"Place ingredient list inside frame"
+
+Automatically:
+
+detect text region
+
+focus
+
+correct perspective
+
+enhance contrast
+
+remove shadows where possible
+
+detect rotation
+
+capture automatically when stable
+
+Allow:
+
+Flash
+Manual capture
+Gallery upload
+Crop
+Retake
+
+---
+
+# 25. LIVE INGREDIENT HIGHLIGHTING
+
+Advanced feature:
+
+When the camera detects the ingredient list, highlight recognized concerns directly over the image.
+
+Example:
+
+gelatin → RED
+
+E471 → YELLOW
+
+sugar → neutral
+
+vegetable oil → GREEN
+
+Tapping highlighted text opens its explanation.
+
+---
+
+# 26. BARCODE + CAMERA HYBRID VERIFICATION
+
+If barcode database says:
+
+Ingredients A/B/C
+
+but the user's photographed package shows:
+
+Ingredients A/B/C/D
+
+detect the discrepancy.
+
+Tell user:
+
+"Packaging appears newer than our database record."
+
+Use the photographed ingredient list for the current analysis.
+
+With consent, submit the new version for community/database review.
+
+---
+
+# 27. UNKNOWN PRODUCT WORKFLOW
+
+Barcode not found?
+
+Never stop at:
+
+"Product not found."
+
+Instead:
+
+PRODUCT NOT FOUND
+
+📸 Scan ingredients
+
+📸 Scan front package
+
+Optional:
+
+Product name
+Brand
+Country
+
+Then analyze it immediately.
+
+After analysis:
+
+"Help the community?"
+
+Submit anonymized product information and packaging photos with explicit user permission.
+
+---
+
+# 28. COMMUNITY DATABASE FLYWHEEL
+
+Every legitimate unknown scan can potentially improve HALALENS.
+
+Build:
+
+Community submissions
+
+Corrections
+
+Upvotes
+
+Verification
+
+Duplicate detection
+
+Abuse reporting
+
+Moderator review
+
+Expert review
+
+Manufacturer verification
+
+Create trust levels:
+
+New contributor
+
+Trusted contributor
+
+Expert reviewer
+
+Manufacturer verified
+
+HALALENS verified
+
+Do not let popularity voting determine religious classification.
+
+Community signals can improve data quality, but evidence determines classification.
+
+---
+
+# 29. SEARCH
+
+Search by:
+
+Product name
+
+Brand
+
+Barcode
+
+Ingredient
+
+E-number
+
+Category
+
+Country
+
+Certification body
+
+Example:
+
+"E471"
+
+should open the ingredient intelligence page.
+
+Search:
+
+"Oreo"
+
+should show regional product variants rather than assuming one global recipe.
+
+---
+
+# 30. PERSONAL DIET FILTERS
+
+Allow optional dietary profiles.
+
+Examples:
+
+Pork-free
+
+Halal-conscious
+
+Strict certification only
+
+Alcohol avoidance
+
+Vegetarian
+
+Vegan
+
+Lactose
+
+Gluten
+
+Peanuts
+
+Tree nuts
+
+Egg
+
+Soy
+
+Shellfish
+
+However:
+
+ALLERGY FEATURES MUST BE CLEARLY SEPARATED FROM HALAL CLASSIFICATION.
+
+For serious allergies, warn users to rely on official package labeling and medical guidance rather than HALALENS alone.
+
+---
+
+# 31. PRODUCT COMPARISON
+
+Allow:
+
+COMPARE
+
+Product A
+vs
+Product B
+
+Compare:
+
+Pork status
+
+Halal ingredient assessment
+
+Certification
+
+Questionable ingredients
+
+Additives
+
+Allergens
+
+Nutrition if available
+
+Recommend the option with fewer unresolved halal concerns, but explain why.
+
+---
+
+# 32. ALTERNATIVE PRODUCTS
+
+When a product contains an explicit problematic ingredient or has unresolved ingredients:
+
+Show:
+
+"Find alternatives"
+
+Prioritize products:
+
+available in same country
+
+same category
+
+verified halal certification where available
+
+stronger ingredient transparency
+
+better confidence score
+
+Do not claim local store availability unless actual inventory data exists.
+
+---
+
+# 33. TRAVEL MODE
+
+Create:
+
+HALALENS TRAVEL MODE
+
+User selects country.
+
+Example:
+
+🇫🇷 France
+🇩🇪 Germany
+🇮🇹 Italy
+
+The app adjusts:
+
+local ingredient vocabulary
+
+common additive terminology
+
+local certification information
+
+product database
+
+regional formulations
+
+language
+
+---
+
+# 34. OFFLINE MODE
+
+Allow downloading lightweight ingredient dictionaries for countries/languages.
+
+Offline mode should detect common:
+
+pork terminology
+
+alcohol terminology
+
+gelatin
+
+animal fats
+
+E-numbers
+
+questionable ingredients
+
+It should clearly indicate:
+
+"Offline ingredient analysis"
+
+and avoid implying that online product/certification verification occurred.
+
+---
+
+# 35. USER INTERFACE
+
+Design aesthetic:
+
+Premium
+Modern
+Minimal
+Trustworthy
+Fast
+Clean
+
+Avoid making the UI look like a generic religious app.
+
+Use a sophisticated consumer-tech aesthetic similar in polish to premium nutrition/finance applications.
+
+Use spacious cards, rounded components, excellent typography and subtle animations.
+
+Primary navigation:
+
+HOME
+
+SCAN
+
+SEARCH
+
+SAVED
+
+PROFILE
+
+SCAN should be the prominent center action.
+
+---
+
+# 36. HOME SCREEN
+
+Header:
+
+HALALENS
+
+"Know what's inside."
+
+Large central scan button.
+
+Below:
+
+Scan Barcode
+
+Scan Ingredients
+
+Pork Check
+
+E-Number Check
+
+Search Product
+
+Then:
+
+Recently scanned
+
+Popular verified products
+
+Ingredient alerts
+
+---
+
+# 37. RESULT COLOR SYSTEM
+
+Use intuitive semantic states.
+
+GREEN
+No identified concern
+
+YELLOW
+Needs verification
+
+ORANGE
+Significant uncertainty
+
+RED
+Explicit prohibited/pork-related ingredient detected
+
+GRAY
+Unknown
+
+Never rely on color alone.
+
+Always provide icon + text for accessibility.
+
+---
+
+# 38. EXPLANATIONS
+
+Do not simply say:
+
+"E471 questionable."
+
+Explain:
+
+"What is it?"
+
+"Why might it matter?"
+
+"What are possible sources?"
+
+"Can pork be involved?"
+
+"Can the label confirm the source?"
+
+"What should I do?"
+
+Use simple language by default.
+
+Provide:
+
+"Scientific details"
+
+for advanced users.
+
+---
+
+# 39. ASK THE MANUFACTURER
+
+Create an intelligent feature:
+
+"Ask Manufacturer"
+
+For ambiguous ingredients, automatically create a localized question.
+
+Example:
+
+"Could you confirm whether the mono- and diglycerides (E471) used in this product are derived exclusively from vegetable sources, or whether animal-derived fats are used?"
+
+Generate in the manufacturer's local language.
+
+Store verified manufacturer responses where legally appropriate and attach evidence/provenance.
+
+---
+
+# 40. AI EXPLANATION RULES
+
+The AI assistant must NEVER:
+
+invent a certification
+
+invent ingredient origin
+
+assume animal source without evidence
+
+assume vegetable source without evidence
+
+declare ambiguous ingredients haram
+
+declare products halal solely because pork was not detected
+
+hide uncertainty
+
+The assistant should say:
+
+"Based on the ingredient label..."
+
+"Our database currently indicates..."
+
+"The source cannot be determined from the label."
+
+"Manufacturer verification is recommended."
+
+---
+
+# 41. DATABASE TECHNOLOGY
+
+Recommended scalable architecture:
+
+PostgreSQL
+
+Use Supabase or equivalent managed PostgreSQL for MVP if appropriate.
+
+Enable:
+
+full-text search
+
+fuzzy matching
+
+JSONB
+
+row-level security
+
+indexes
+
+vector search where useful
+
+Use object storage for:
+
+package images
+
+ingredient-label photos
+
+certification evidence
+
+Use CDN delivery.
+
+---
+
+# 42. SEARCH INDEX
+
+Use dedicated fast search as scale increases.
+
+Support:
+
+typos
+
+accents
+
+transliteration
+
+multilingual synonyms
+
+barcode exact matching
+
+fuzzy product names
+
+ingredient aliases
+
+Examples:
+
+gelatine
+gélatine
+gelatin
+
+should resolve intelligently.
+
+---
+
+# 43. VECTOR/SEMANTIC MATCHING
+
+Use embeddings carefully for unknown ingredient phrases.
+
+Semantic search can suggest candidate canonical ingredients.
+
+But semantic similarity must NOT determine halal status directly.
+
+Pipeline:
+
+unknown text
+↓
+semantic candidate search
+↓
+candidate ingredient
+↓
+deterministic database classification
+↓
+confidence check
+
+---
+
+# 44. RULE ENGINE BEFORE GENERATIVE AI
+
+Use deterministic rules wherever possible.
+
+Architecture:
+
+OCR
+↓
+language identification
+↓
+tokenization
+↓
+ingredient normalization
+↓
+knowledge-base lookup
+↓
+rules engine
+↓
+AI explanation
+
+AI should explain and resolve linguistic complexity.
+
+AI should NOT be the primary religious-status database.
+
+---
+
+# 45. API ARCHITECTURE
+
+Create modular services:
+
+/api/products/barcode/{code}
+
+/api/products/search
+
+/api/products/{id}
+
+/api/scan/barcode
+
+/api/scan/ingredients
+
+/api/analyze
+
+/api/ingredients/search
+
+/api/ingredients/{id}
+
+/api/additives/{number}
+
+/api/certifications
+
+/api/certifications/verify
+
+/api/products/{id}/versions
+
+/api/submissions
+
+/api/corrections
+
+/api/manufacturer-responses
+
+Use versioned APIs.
+
+---
+
+# 46. ANALYSIS RESPONSE OBJECT
+
+Return structured JSON similar to:
+
+{
+ "product": {},
+ "detected_language": "fr",
+ "ingredients": [],
+ "pork_check": {
+   "status": "NO_EXPLICIT_PORK_DETECTED",
+   "confidence": "HIGH"
+ },
+ "halal_analysis": {
+   "status": "VERIFY",
+   "confidence": "MEDIUM"
+ },
+ "certification": {
+   "status": "NOT_VERIFIED"
+ },
+ "flagged_ingredients": [],
+ "uncertain_ingredients": [],
+ "analysis_version": "...",
+ "data_sources": [],
+ "last_verified": "..."
+}
+
+Never rely on free-form AI text internally when structured output can be used.
+
+---
+
+# 47. DATA PROVENANCE
+
+Every important fact needs provenance.
+
+Store:
+
+source
+
+source_type
+
+retrieved_at
+
+original_record_id
+
+license
+
+verification_status
+
+reviewer
+
+evidence
+
+Never lose source attribution when importing records.
+
+---
+
+# 48. DUPLICATE DETECTION
+
+Products can appear from multiple sources.
+
+Merge intelligently using:
+
+GTIN
+
+UPC
+
+EAN
+
+brand
+
+name
+
+package size
+
+country
+
+ingredient hash
+
+Do not merge different regional formulations merely because their names are similar.
+
+---
+
+# 49. DATA REFRESH
+
+Build scheduled synchronization.
+
+Product records should support:
+
+last fetched
+
+last modified externally
+
+last label verification
+
+stale status
+
+If data becomes old, decrease confidence.
+
+---
+
+# 50. SECURITY
+
+Implement:
+
+HTTPS
+
+secure authentication
+
+rate limiting
+
+API-key protection
+
+server-side secrets
+
+input validation
+
+image upload validation
+
+malware-resistant upload handling
+
+SQL injection protection
+
+XSS protection
+
+CSRF protection where relevant
+
+audit logs
+
+abuse prevention
+
+Do not expose external API keys in client code.
+
+---
+
+# 51. PRIVACY / GDPR
+
+Because Europe is a primary market:
+
+Design for GDPR.
+
+Provide:
+
+minimum data collection
+
+anonymous scanning without signup
+
+clear consent
+
+account deletion
+
+data export
+
+photo deletion
+
+privacy policy
+
+cookie consent where legally necessary
+
+analytics consent controls
+
+Do not collect precise location unless required and explicitly permitted.
+
+---
+
+# 52. LOGIN
+
+Scanning must work WITHOUT login.
+
+Account adds:
+
+scan history
+
+favorites
+
+dietary preferences
+
+community contribution
+
+alerts
+
+saved products
+
+cross-device synchronization
+
+Support modern authentication such as:
+
+Email
+
+Google
+
+Apple
+
+depending on platform/provider availability.
+
+---
+
+# 53. NOTIFICATIONS
+
+Optional alerts:
+
+"Product formulation changed."
+
+"Previously uncertain ingredient has been verified."
+
+"Certification information updated."
+
+"Your submitted product has been reviewed."
+
+---
+
+# 54. PRODUCT CHANGE ALERT
+
+This can become a major differentiator.
+
+If a saved product changes ingredients:
+
+⚠️ PRODUCT UPDATE
+
+"Ingredient formulation appears to have changed."
+
+Show:
+
+OLD
+vs
+NEW
+
+Highlight differences.
+
+---
+
+# 55. ADMIN DASHBOARD
+
+Build a secure administration dashboard.
+
+Admin capabilities:
+
+Products
+
+Ingredients
+
+Aliases
+
+Languages
+
+E-numbers
+
+Certifiers
+
+Certificates
+
+Community submissions
+
+Corrections
+
+Reported errors
+
+Manufacturer responses
+
+Duplicate products
+
+Product versions
+
+Data-source health
+
+OCR failures
+
+Analytics
+
+Expert review queue
+
+---
+
+# 56. EXPERT REVIEW SYSTEM
+
+Create a workflow:
+
+AI analyzed
+
+↓
+
+community checked
+
+↓
+
+specialist reviewed
+
+↓
+
+verified
+
+Display verification level transparently.
+
+---
+
+# 57. ANALYTICS
+
+Privacy-respecting analytics should measure:
+
+daily scans
+
+barcode success rate
+
+OCR success rate
+
+unknown products
+
+languages scanned
+
+countries
+
+most searched ingredients
+
+most questionable additives
+
+retention
+
+repeat scans
+
+product contribution rate
+
+Do not expose sensitive individual behavior unnecessarily.
+
+---
+
+# 58. MONETIZATION — FREEMIUM
+
+Keep essential pork/ingredient safety information accessible.
+
+FREE:
+
+Barcode scanning
+
+Basic ingredient scanning
+
+Pork detection
+
+Basic halal assessment
+
+Basic E-number information
+
+Limited history
+
+OPTIONAL PREMIUM:
+
+Unlimited history
+
+Advanced AI explanations
+
+Travel offline packs
+
+Product-change alerts
+
+Family profiles
+
+Advanced comparison
+
+Detailed reports
+
+Enhanced dietary preferences
+
+Possible pricing concept:
+
+€2.99/month
+
+or
+
+€19.99/year
+
+Test pricing rather than hard-code assumptions.
+
+Never hide a detected explicit pork ingredient behind a paywall.
+
+---
+
+# 59. BUSINESS/B2B FUTURE
+
+Design architecture for future services:
+
+HALALENS API
+
+Restaurants
+
+Retailers
+
+Food manufacturers
+
+E-commerce stores
+
+Ingredient compliance tools
+
+Browser extension
+
+Shopify integration
+
+WooCommerce integration
+
+Product-data verification
+
+Potential API:
+
+POST /v1/analyze-ingredients
+
+Businesses send ingredient text.
+
+HALALENS returns structured analysis.
+
+---
+
+# 60. BROWSER EXTENSION FUTURE
+
+Design API so a future extension can analyze food products on:
+
+online supermarkets
+
+e-commerce product pages
+
+grocery delivery websites
+
+The extension should read ingredient text and show the HALALENS assessment.
+
+---
+
+# 61. ACCESSIBILITY
+
+Support:
+
+screen readers
+
+large text
+
+high contrast
+
+keyboard navigation on web
+
+clear status icons
+
+WCAG-conscious design
+
+Do not communicate risk solely through green/red colors.
+
+---
+
+# 62. PWA
+
+Build HALALENS as a high-quality installable Progressive Web App first if this accelerates launch.
+
+Requirements:
+
+responsive
+
+camera support
+
+installable
+
+service worker
+
+offline dictionary
+
+fast loading
+
+mobile-first
+
+Android/iPhone friendly
+
+Then architecture should permit native applications later using Flutter, React Native or equivalent.
+
+---
+
+# 63. SEO WEBSITE
+
+Create public indexable educational pages.
+
+Examples:
+
+/ingredient/e471
+
+/ingredient/e120
+
+/ingredient/gelatin
+
+/ingredient/rennet
+
+/is-e471-halal
+
+/is-gelatin-halal
+
+/pork-ingredients-list
+
+/e-numbers-halal-guide
+
+Pages must contain accurate, useful information rather than programmatic SEO spam.
+
+Include structured data where appropriate.
+
+---
+
+# 64. USER EDUCATION
+
+Create an educational section:
+
+Learn
+
+Topics:
+
+What does halal mean?
+
+Does pork-free mean halal?
+
+What are E-numbers?
+
+How gelatin is produced
+
+Animal vs vegetable emulsifiers
+
+What is rennet?
+
+How halal certification works
+
+Why product recipes differ between countries
+
+How to read European ingredient labels
+
+---
+
+# 65. IMPORTANT DISCLAIMER
+
+Use a concise disclaimer:
+
+"HALALENS provides ingredient and certification information to help users make informed decisions. Ingredient sourcing and manufacturing processes may change, and some origins cannot be determined from packaging alone. When certainty is required, verify with the manufacturer or a trusted halal certification authority."
+
+Do not overwhelm every screen with legal text.
+
+---
+
+# 66. PERFORMANCE
+
+Target:
+
+Fast startup
+
+Barcode recognition in near real time
+
+Cached product results displayed almost instantly
+
+OCR processing optimized
+
+Lazy-loaded images
+
+Compressed uploads
+
+CDN
+
+Database indexes
+
+Background data synchronization
+
+---
+
+# 67. DATABASE SCALE
+
+Architect from day one for:
+
+10 million+ products
+
+100 million+ scans
+
+millions of product images
+
+hundreds of thousands of ingredient aliases
+
+dozens of languages
+
+regional product versions
+
+Do not load the complete product database into the mobile client.
+
+Use API + caching.
+
+---
+
+# 68. PRODUCT SOURCE CONNECTORS
+
+Create modular adapters.
+
+Example:
+
+ProductSource interface
+
+searchByBarcode()
+
+searchByName()
+
+getIngredients()
+
+getImages()
+
+getCountry()
+
+getUpdatedDate()
+
+normalize()
+
+Adapters:
+
+OpenFoodFactsAdapter
+
+USDAAdapter
+
+ManufacturerAdapter
+
+InternalDatabaseAdapter
+
+FutureGS1CompatibleAdapter
+
+This makes external sources replaceable.
+
+---
+
+# 69. SOURCE MERGING ENGINE
+
+If sources disagree:
+
+Do not arbitrarily choose one.
+
+Calculate reliability using:
+
+market match
+
+freshness
+
+label photo evidence
+
+manufacturer evidence
+
+database reliability
+
+verification status
+
+Show uncertainty when appropriate.
+
+---
+
+# 70. LOCAL CACHE
+
+When product 123 has already been analyzed:
+
+Store normalized analysis.
+
+Next scan:
+
+barcode
+↓
+cache lookup
+↓
+instant result
+
+Run background freshness checks according to policy.
+
+---
+
+# 71. IMAGE STORAGE
+
+Do not retain every user's photograph automatically.
+
+Process temporary scans.
+
+Ask:
+
+"Help improve HALALENS by contributing this product image?"
+
+Only persist community-contributed images after consent.
+
+Strip unnecessary image metadata.
+
+---
+
+# 72. DESIGN A COMPLETE MVP
+
+Build Phase 1 first:
+
+Home
+
+Camera
+
+Barcode scanning
+
+Ingredient OCR
+
+English/French/German/Spanish/Italian support
+
+Product database integration
+
+Ingredient knowledge base
+
+Pork detector
+
+Halal analysis
+
+E-number database
+
+Result screen
+
+Search
+
+History
+
+Basic admin panel
+
+Then expand language coverage.
+
+However, the DATABASE ARCHITECTURE must support all languages from day one.
+
+---
+
+# 73. PHASE 2
+
+Add:
+
+All EU languages
+
+Arabic/Turkish/Urdu
+
+Certification verification
+
+Community contributions
+
+Manufacturer questions
+
+Alternatives
+
+Product comparisons
+
+Offline dictionaries
+
+Product update alerts
+
+---
+
+# 74. PHASE 3
+
+Add:
+
+Native apps
+
+B2B API
+
+Retail integrations
+
+Browser extension
+
+Advanced certification partnerships
+
+Manufacturer portal
+
+Retail product intelligence
+
+---
+
+# 75. HOMEPAGE COPY
+
+Hero:
+
+**Know what's really inside.**
+
+Subheading:
+
+Scan a barcode or ingredient label and instantly identify pork, questionable ingredients, additives and halal-related concerns — across multiple languages.
+
+CTA:
+
+SCAN A PRODUCT
+
+Secondary:
+
+SEARCH INGREDIENTS
+
+Trust message:
+
+"No guesswork. Uncertainty is clearly shown."
+
+---
+
+# 76. FIRST-USE EXPERIENCE
+
+No complicated onboarding.
+
+Screen 1:
+
+HALALENS
+
+"Scan it. Understand it. Decide with confidence."
+
+[START SCANNING]
+
+Then ask optional preferences later.
+
+Do not require signup before first scan.
+
+---
+
+# 77. SCAN ANIMATION
+
+After capturing:
+
+READING LABEL...
+
+DETECTING LANGUAGE...
+
+IDENTIFYING INGREDIENTS...
+
+CHECKING SOURCES...
+
+ANALYZING...
+
+Then reveal result.
+
+Keep actual processing efficient; animations should never artificially slow down results.
+
+---
+
+# 78. SAMPLE RESULT
+
+PRODUCT
+
+Chocolate Marshmallow Cookies
+
+PORK CHECK
+
+🔴 PORK INGREDIENT DETECTED
+
+Ingredient:
+
+Pork Gelatin
+
+Reason:
+
+The ingredient label explicitly identifies gelatin from pork.
+
+HALAL ANALYSIS
+
+🔴 NOT COMPATIBLE
+
+Confidence:
+
+HIGH
+
+Evidence:
+
+Current package ingredient label
+
+Do not unnecessarily invoke generative AI for an explicit match.
+
+---
+
+# 79. AMBIGUOUS RESULT EXAMPLE
+
+PRODUCT
+
+Chocolate Biscuits
+
+PORK CHECK
+
+🟡 PORK CANNOT BE FULLY EXCLUDED
+
+Ingredient requiring verification:
+
+E471
+
+Explanation:
+
+E471 can be produced from different fat sources. The ingredient label does not identify the source.
+
+HALAL ANALYSIS
+
+🟡 VERIFY
+
+Recommended action:
+
+Check for trusted halal certification or ask the manufacturer.
+
+[ASK MANUFACTURER]
+
+---
+
+# 80. CLEAN RESULT EXAMPLE
+
+PORK CHECK
+
+🟢 NO DECLARED PORK INGREDIENT FOUND
+
+HALAL INGREDIENT ANALYSIS
+
+🟢 NO OBVIOUS INGREDIENT CONCERN IDENTIFIED
+
+CERTIFICATION
+
+⚪ NOT VERIFIED
+
+Explanation:
+
+No explicitly prohibited ingredient was identified from the available label, but this does not by itself establish halal certification.
+
+---
+
+# 81. TECH STACK
+
+Choose a modern stack optimized for maintainability.
+
+Preferred web/PWA example:
+
+Frontend:
+Next.js / React / TypeScript
+
+UI:
+Tailwind CSS
+
+Backend:
+Serverless/API backend
+
+Database:
+PostgreSQL / Supabase
+
+Authentication:
+Supabase Auth or equivalent
+
+Storage:
+Supabase Storage or compatible object storage
+
+OCR:
+high-quality multilingual OCR service with fallback architecture
+
+AI:
+multimodal LLM only where useful
+
+Barcode:
+robust browser/mobile barcode library
+
+Search:
+PostgreSQL initially; dedicated search engine at scale
+
+Cache:
+Redis-compatible caching at scale
+
+Do not lock the entire application into one AI provider.
+
+Create abstraction interfaces for AI and OCR providers.
+
+---
+
+# 82. TESTING
+
+Create automated tests for dangerous classification mistakes.
+
+Test examples:
+
+pork gelatin → explicit pork
+
+beef gelatin → animal source, NOT pork
+
+fish gelatin → NOT pork
+
+vegetable glycerin → plant source
+
+glycerin → source-dependent if source unknown
+
+microbial rennet → microbial
+
+animal rennet → animal/source-specific assessment
+
+E471 → source-dependent unless source explicitly stated
+
+vegetable E471 → plant source when label evidence is clear
+
+lard → pork
+
+saindoux → pork
+
+Schweinefett → pork
+
+grasa de cerdo → pork
+
+gelatina porcina → pork
+
+Do this across every supported language.
+
+---
+
+# 83. ADVERSARIAL TESTING
+
+Test:
+
+misspellings
+
+accent removal
+
+OCR errors
+
+mixed languages
+
+all-uppercase labels
+
+tiny text
+
+ingredients split over multiple lines
+
+parentheses
+
+nested ingredients
+
+compound ingredients
+
+decimal punctuation
+
+E-number formatting variations
+
+Example:
+
+"E 4 7 1"
+
+should be normalized cautiously when OCR confidence supports it.
+
+---
+
+# 84. QUALITY PRINCIPLE
+
+The application must optimize for:
+
+TRUST
+
+not for giving users the answer they want.
+
+If HALALENS does not know:
+
+say:
+
+"We don't know yet."
+
+That is better than a false halal/haram declaration.
+
+---
+
+# 85. DATA QUALITY DASHBOARD
+
+Create internal metrics:
+
+% barcode coverage
+
+% scans resolved
+
+% OCR success
+
+% ingredients normalized
+
+% ambiguous ingredients
+
+% products with recent evidence
+
+% certification verified
+
+coverage by country
+
+coverage by language
+
+This tells the team where database expansion is needed.
+
+---
+
+# 86. COUNTRY COVERAGE DASHBOARD
+
+Show internal coverage for:
+
+France
+
+Germany
+
+Spain
+
+Italy
+
+Netherlands
+
+Belgium
+
+Portugal
+
+Poland
+
+Sweden
+
+Denmark
+
+Finland
+
+Austria
+
+Ireland
+
+UK
+
+USA
+
+Canada
+
+etc.
+
+Track:
+
+products
+
+verified products
+
+recently updated
+
+ingredient coverage
+
+barcode success
+
+---
+
+# 87. AUTOMATIC LANGUAGE DETECTION
+
+Do not ask the user to select the package language before scanning.
+
+Automatically detect it.
+
+If package contains multiple languages:
+
+detect each section.
+
+Example:
+
+French + Dutch + German
+
+Select the clearest ingredient section and avoid counting translated duplicates as separate ingredients.
+
+---
+
+# 88. TRANSLATION DISPLAY
+
+If user's app language is English but packaging is Polish:
+
+Display:
+
+Original:
+
+"żelatyna wieprzowa"
+
+Translation:
+
+"Pork gelatin"
+
+Classification:
+
+🔴 PORK DERIVED
+
+Keep original wording visible for transparency.
+
+---
+
+# 89. PERSONAL APP LANGUAGE
+
+UI should initially support:
+
+English
+
+French
+
+German
+
+Spanish
+
+Italian
+
+Portuguese
+
+Dutch
+
+Polish
+
+Arabic
+
+Turkish
+
+Urdu
+
+Expand later.
+
+Ingredient recognition should support more languages than the UI itself.
+
+---
+
+# 90. RTL
+
+Arabic and Urdu interfaces require proper right-to-left support.
+
+Do not simply reverse text.
+
+Design components with genuine RTL layouts.
+
+---
+
+# 91. USER CORRECTIONS
+
+Allow:
+
+"Something wrong?"
+
+Options:
+
+Wrong ingredient
+
+Wrong product
+
+Outdated ingredients
+
+Wrong translation
+
+Wrong classification
+
+Certification changed
+
+Upload supporting evidence.
+
+Never instantly change production classification based on one anonymous correction.
+
+Queue review.
+
+---
+
+# 92. MANUFACTURER PORTAL — FUTURE
+
+Allow verified manufacturers to:
+
+claim brand
+
+update ingredients
+
+upload certification
+
+answer source questions
+
+submit product changes
+
+Verified manufacturer information should carry strong provenance but remain auditable.
+
+---
+
+# 93. TRUST TRANSPARENCY
+
+For each analysis offer:
+
+"Why this result?"
+
+Show:
+
+Product source
+
+Ingredient source
+
+Date checked
+
+Confidence
+
+Relevant uncertain ingredients
+
+Certification evidence
+
+Users should understand how HALALENS reached the result.
+
+---
+
+# 94. NO FAKE EXPERT AUTHORITY
+
+Do not claim that an AI is an Islamic scholar.
+
+Ingredient science and religious rulings are not identical.
+
+Where interpretations differ, the platform should present the factual ingredient/source evidence and, where appropriate, clearly describe that standards may differ between certification bodies.
+
+Architect the database to support multiple halal standards/policies rather than hard-coding one universal interpretation.
+
+---
+
+# 95. HALAL POLICY ENGINE
+
+Create:
+
+halal_policies
+
+policy_id
+
+organization
+
+region
+
+rules_version
+
+effective_date
+
+This makes it possible for classifications to reflect different recognized standards where appropriate.
+
+Separate:
+
+FACT:
+
+"Ingredient can be animal-derived."
+
+from:
+
+POLICY INTERPRETATION:
+
+"Certification standard X requires source verification."
+
+This distinction is extremely important.
+
+---
+
+# 96. FINAL DELIVERABLE
+
+Do not merely describe this application.
+
+BUILD THE APPLICATION.
+
+Produce:
+
+1. Full project architecture
+2. Database schema
+3. SQL migrations
+4. Frontend
+5. Backend APIs
+6. Product source adapters
+7. OCR pipeline
+8. Ingredient parser
+9. Multilingual alias engine
+10. Pork detection rules
+11. Halal assessment engine
+12. Confidence engine
+13. Authentication
+14. Camera interface
+15. Barcode scanner
+16. Product result UI
+17. Search
+18. History
+19. Favorites
+20. Admin dashboard
+21. Community submission workflow
+22. Responsive PWA
+23. Privacy controls
+24. Error handling
+25. Seed ingredient database
+26. E-number seed database
+27. Automated tests
+28. Documentation
+29. Deployment instructions
+30. Environment-variable template
+
+The application must contain NO fake placeholder functionality presented as complete.
+
+If an external API key is required, create the integration architecture and clearly identify the environment variable required.
+
+Do not hard-code secrets.
+
+---
+
+# 97. DEVELOPMENT METHOD
+
+Build incrementally.
+
+STEP 1
+Create database schema.
+
+STEP 2
+Create ingredient ontology.
+
+STEP 3
+Seed high-risk ingredients and additives.
+
+STEP 4
+Implement product API connectors.
+
+STEP 5
+Implement barcode scanning.
+
+STEP 6
+Implement camera/OCR.
+
+STEP 7
+Implement language detection.
+
+STEP 8
+Implement ingredient normalization.
+
+STEP 9
+Implement deterministic classification engine.
+
+STEP 10
+Implement confidence/provenance engine.
+
+STEP 11
+Build result interface.
+
+STEP 12
+Build search.
+
+STEP 13
+Build community contribution.
+
+STEP 14
+Build administration.
+
+STEP 15
+Add authentication/history.
+
+STEP 16
+Create PWA.
+
+STEP 17
+Test multilingual classification.
+
+STEP 18
+Security audit.
+
+STEP 19
+Performance optimization.
+
+STEP 20
+Production deployment.
+
+After every step, verify that existing functionality still works.
+
+---
+
+# 98. NON-NEGOTIABLE RULE
+
+Never sacrifice correctness for a visually satisfying answer.
+
+HALALENS must distinguish:
+
+**KNOWN**
+
+from
+
+**LIKELY**
+
+from
+
+**UNCERTAIN**
+
+from
+
+**UNKNOWN**
+
+This principle should exist throughout the database, APIs, AI prompts and user interface.
+
+---
+
+# 99. PRODUCT VISION
+
+HALALENS should eventually become:
+
+**A multilingual ingredient intelligence layer for the world's packaged products.**
+
+A Muslim traveler in Paris should be able to photograph a French ingredient label.
+
+A user in Germany should scan a German barcode.
+
+A tourist in Italy should photograph an Italian snack.
+
+A family in America should scan a UPC.
+
+Someone holding an imported Polish product should photograph its ingredients.
+
+Within seconds, HALALENS should explain what is inside the product in the user's preferred language, identify explicit pork-derived ingredients, highlight source-dependent ingredients, check available certification evidence, and clearly communicate what it knows and what it cannot prove.
+
+Build for that vision from day one.
