@@ -56,7 +56,7 @@ export interface TranslationStrings {
 
 export const TRANSLATIONS: Record<SupportedLanguage, TranslationStrings> = {
   en: {
-    appName: 'HALALENS',
+    appName: "Halalin'",
     tagline: 'Scan it. Understand it. Decide with confidence.',
     scanProduct: 'Scan a Product',
     cameraScan: 'Camera Ingredient Scan',
@@ -93,7 +93,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationStrings> = {
     recentScans: 'Recent Scans',
     popularProducts: 'Popular Verified Products',
     ingredientAlerts: 'High-Alert Ingredients in EU/US',
-    disclaimer: 'HALALENS provides ingredient and certification information to assist informed decisions. Formulations may vary by country and change over time. When certainty is needed, consult the manufacturer or a trusted halal authority.',
+    disclaimer: "Halalin' provides ingredient and certification information to assist informed decisions. Formulations may vary by country and change over time. When certainty is needed, consult the manufacturer or a trusted halal authority.",
     scientificDetails: 'Food Science & Biochemical Details',
     sourceExplanation: 'Possible Sources & Processing',
     homeNav: 'Home',
@@ -104,7 +104,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationStrings> = {
     adminNav: 'Admin',
   },
   fr: {
-    appName: 'HALALENS',
+    appName: "Halalin'",
     tagline: 'Scannez. Comprenez. Décidez en toute confiance.',
     scanProduct: 'Scanner un produit',
     cameraScan: 'Scanner les ingrédients',
@@ -152,7 +152,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationStrings> = {
     adminNav: 'Admin',
   },
   de: {
-    appName: 'HALALENS',
+    appName: "Halalin'",
     tagline: 'Scannen. Verstehen. Sicher entscheiden.',
     scanProduct: 'Produkt scannen',
     cameraScan: 'Zutatenliste scannen',
@@ -200,7 +200,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationStrings> = {
     adminNav: 'Admin',
   },
   es: {
-    appName: 'HALALENS',
+    appName: "Halalin'",
     tagline: 'Escanear. Entender. Decidir con confianza.',
     scanProduct: 'Escanear producto',
     cameraScan: 'Escanear ingredientes',
@@ -248,7 +248,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationStrings> = {
     adminNav: 'Admin',
   },
   it: {
-    appName: 'HALALENS',
+    appName: "Halalin'",
     tagline: 'Scansiona. Comprendi. Decidi con sicurezza.',
     scanProduct: 'Scansiona un prodotto',
     cameraScan: 'Scansione ingredienti con fotocamera',
@@ -296,7 +296,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationStrings> = {
     adminNav: 'Admin',
   },
   tr: {
-    appName: 'HALALENS',
+    appName: "Halalin'",
     tagline: 'Tara. Anla. Güvenle karar ver.',
     scanProduct: 'Ürün Tara',
     cameraScan: 'Kamerayla İçerik Tara',
@@ -344,7 +344,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, TranslationStrings> = {
     adminNav: 'Yönetim',
   },
   ar: {
-    appName: 'HALALENS',
+    appName: "Halalin'",
     tagline: 'امسح. افهم. قرر بكل ثقة وطمأنينة.',
     scanProduct: 'مسح منتج غذائي',
     cameraScan: 'مسح المكونات بالكاميرا',

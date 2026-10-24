@@ -41,7 +41,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             </div>
             <div>
               <span className="text-xl font-extrabold tracking-tight text-white whitespace-nowrap">
-                HALAL<span className="text-emerald-400">ENS</span>
+                Halal<span className="text-emerald-400">in'</span>
               </span>
             </div>
           </button>

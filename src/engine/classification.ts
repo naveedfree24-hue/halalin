@@ -93,8 +93,99 @@ export function runHalalAnalysis(
     certDetails = 'Packaging logo detected; secondary audit required to confirm expiration date.';
   }
 
-  // 4. CONFIDENCE ENGINE (Section 23)
-  // Confidence factors: OCR clarity, language match, ambiguity count, verified source
+  // 4. GLUTEN CHECK ENGINE
+  const glutenPatterns = [
+    /\b(wheat|barley|rye|spelt|triticale|semolina|malt|kamut|durum)\b/i,
+    /\b(bl[ée]|orge|seigle|[ée]peautre|malt\s+d['’]orge|farine\s+de\s+bl[ée]|froment)\b/i,
+    /\b(weizen|gerste|roggen|dinkel|gerstenmalz|weizenmehl|weizenst[äa]rke)\b/i,
+    /\b(trigo|cebada|centeno|harina\s+de\s+trigo|malta)\b/i,
+    /\b(grano|frumento|orzo|segale|farina\s+di\s+frumento)\b/i,
+    /\b(pszenica|j[ęe]czmie[ńn]|[żz]yto|m[ąa]ka\s+pszenna)\b/i,
+    /\b(bu[ğg]day|arpa|[çc]avdar)\b/i,
+    /\b(قمح|شعير|شوفان|دقيق\s+القمح)\b/i,
+  ];
+
+  const flaggedGrains: string[] = [];
+  for (const ing of analyzedIngredients) {
+    const norm = ing.normalizedText.toLowerCase();
+    for (const pat of glutenPatterns) {
+      if (pat.test(norm)) {
+        flaggedGrains.push(ing.rawText);
+        break;
+      }
+    }
+  }
+
+  const containsGluten = flaggedGrains.length > 0;
+  const glutenStatus = containsGluten ? 'CONTAINS_GLUTEN' : 'GLUTEN_FREE';
+  const glutenExplanation = containsGluten
+    ? `Contains gluten-containing grains: ${flaggedGrains.slice(0, 3).join(', ')}.`
+    : 'No declared wheat, barley, rye, or gluten grains found on ingredient list.';
+
+  // 5. KOSHER ASSESSMENT ENGINE
+  const dairyPatterns = [
+    /\b(milk|dairy|whey|lactose|casein|butter|cheese|cream|yogurt|curd)\b/i,
+    /\b(lait|beurre|cr[èe]me|lactos[ée]rum|fromage|yaourt)\b/i,
+    /\b(milch|butter|sahne|molke|k[äa]se|joghurt)\b/i,
+    /\b(leche|mantequilla|queso|suero|nata)\b/i,
+    /\b(latte|burro|formaggio|panna)\b/i,
+    /\b(mleko|mas[łl]o|serwatka|ser)\b/i,
+    /\b(s[üu]t|tereya[ğg][ıi]|peynir)\b/i,
+    /\b(حليب|لبن|زبدة|جبن|مصل\s+اللبن)\b/i,
+  ];
+
+  let dairyDetected = false;
+  let meatDetected = explicitPorkFound;
+
+  for (const ing of analyzedIngredients) {
+    const norm = ing.normalizedText.toLowerCase();
+    for (const pat of dairyPatterns) {
+      if (pat.test(norm)) {
+        dairyDetected = true;
+        break;
+      }
+    }
+    if (/\b(beef|meat|bacon|ham|porc|viande|cerdo|carne|rind|fleisch)\b/i.test(norm)) {
+      meatDetected = true;
+    }
+  }
+
+  let kosherStatus: 'NOT_KOSHER' | 'KOSHER_DAIRY_COMPATIBLE' | 'KOSHER_PAREVE_COMPATIBLE' | 'SOURCE_VERIFICATION_REQUIRED' = 'KOSHER_PAREVE_COMPATIBLE';
+  let kosherExplanation = 'No non-kosher ingredients detected (Pareve compatible).';
+
+  if (explicitPorkFound || overallHalalStatus === 'PORK_DERIVED') {
+    kosherStatus = 'NOT_KOSHER';
+    kosherExplanation = 'Non-Kosher: Contains pork / porcine derivatives, strictly prohibited in Jewish dietary law.';
+  } else if (analyzedIngredients.some((ing) => ing.matchedAdditive?.eNumber === 'E120')) {
+    kosherStatus = 'NOT_KOSHER';
+    kosherExplanation = 'Non-Kosher: Contains Carmine / Cochineal (E120) derived from insects.';
+  } else if (meatDetected && dairyDetected) {
+    kosherStatus = 'NOT_KOSHER';
+    kosherExplanation = 'Non-Kosher: Product mixes meat and dairy ingredients, which violates Kashrut law.';
+  } else if (verifyCount > 0) {
+    kosherStatus = 'SOURCE_VERIFICATION_REQUIRED';
+    kosherExplanation = 'Requires verification: Contains emulsifiers or gelling agents requiring Kosher certification.';
+  } else if (dairyDetected) {
+    kosherStatus = 'KOSHER_DAIRY_COMPATIBLE';
+    kosherExplanation = 'Kosher Dairy compatible: Contains milk/dairy derivatives without non-kosher additives.';
+  }
+
+  // 6. VEGAN & VEGETARIAN ASSESSMENT
+  const isVegetarian = !explicitPorkFound && prohibitedCount === 0 && !meatDetected && !analyzedIngredients.some((i) => i.matchedIngredient?.id === 'ING_ANIMAL_RENNET');
+  const isVegan = isVegetarian && !dairyDetected && !analyzedIngredients.some((i) => i.matchedIngredient?.family === 'Dairy Derivative');
+  const veganExplanation = isVegan
+    ? '100% Plant-Based: No meat, poultry, dairy, egg, or animal derivatives detected.'
+    : isVegetarian
+    ? 'Vegetarian: Contains dairy but free from slaughtered meat tissue or animal fats.'
+    : 'Contains animal tissue, pork, or slaughter-derived fats.';
+
+  // 7. DETECTED ADDITIVES EXTRACTION
+  const detectedAdditives = analyzedIngredients
+    .filter((ing) => ing.matchedAdditive !== undefined)
+    .map((ing) => ing.matchedAdditive!)
+    .filter((add, index, self) => index === self.findIndex((a) => a.eNumber === add.eNumber));
+
+  // 8. CONFIDENCE ENGINE (Section 23)
   let baseScore = 90;
   if (ocrConfidence < 85) baseScore -= 15;
   if (langConfidence < 70) baseScore -= 10;
@@ -133,6 +224,24 @@ export function runHalalAnalysis(
       confidence: confidenceLevel,
       confidenceScore,
     },
+    glutenCheck: {
+      status: glutenStatus,
+      containsGluten,
+      explanation: glutenExplanation,
+      flaggedGrains,
+    },
+    kosherCheck: {
+      status: kosherStatus,
+      explanation: kosherExplanation,
+      dairyDetected,
+      meatDetected,
+    },
+    veganCheck: {
+      isVegan,
+      isVegetarian,
+      explanation: veganExplanation,
+    },
+    detectedAdditives,
     certification: {
       status: certStatus,
       certifierName,

@@ -66,9 +66,20 @@ export function runAutomatedClassificationTests(): { passed: number; failed: num
   const test11 = matchSingleIngredient('présure animale', 'fr');
   assert(test11.halalStatus === 'SOURCE_DEPENDENT', 'présure animale -> SOURCE_DEPENDENT');
 
-  // 12. Full French marshmallow analysis
+  // 12. Full French marshmallow analysis (Pork & Non-Kosher)
   const fullAnalysis = runHalalAnalysis('Sirop de glucose, sucre, gélatine de porc, arôme vanille');
   assert(fullAnalysis.porkCheck.status === 'PORK_DETECTED', 'Full product with gélatine de porc -> PORK_DETECTED');
+  assert(fullAnalysis.kosherCheck.status === 'NOT_KOSHER', 'Pork gelatin product -> NOT_KOSHER');
+
+  // 13. Gluten detection (Wheat flour / farine de froment)
+  const biscuitAnalysis = runHalalAnalysis('Farine de froment 32%, sucre, huile de palme, cacao');
+  assert(biscuitAnalysis.glutenCheck.containsGluten === true, 'Wheat flour (froment) -> CONTAINS_GLUTEN');
+
+  // 14. Gluten-Free product (Tomato sauce)
+  const pastaSauce = runHalalAnalysis('Polpa di pomodoro, concentrato di pomodoro, cipolla, olio, basilico');
+  assert(pastaSauce.glutenCheck.containsGluten === false, 'Tomato sauce -> GLUTEN_FREE');
+  assert(pastaSauce.kosherCheck.status === 'KOSHER_PAREVE_COMPATIBLE', 'Tomato sauce -> KOSHER_PAREVE_COMPATIBLE');
+  assert(pastaSauce.veganCheck.isVegan === true, 'Tomato sauce -> 100% VEGAN');
 
   return { passed, failed, log };
 }

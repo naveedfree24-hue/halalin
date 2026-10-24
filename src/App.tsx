@@ -46,6 +46,7 @@ import { OfflineModeModal } from './components/OfflineModeModal';
 import { DietaryPreferencesModal } from './components/DietaryPreferencesModal';
 import { CompareModal } from './components/CompareModal';
 import { CommunitySubmissionModal } from './components/CommunitySubmissionModal';
+import { UnifiedScannerView } from './components/UnifiedScannerView';
 
 export default function App() {
   // Global View Navigation State
@@ -571,57 +572,11 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 7: HOME SCREEN (Hero, Fast Scan, Dedicated Pork Check, E-Number, Recent Scans) */}
+        {/* VIEW 7: UNIFIED HOME SCREEN (One place to scan and verify Halal, Gluten, Kosher, Pork, and E-Codes) */}
         {(currentView === 'home' || currentView === 'scan') && (
           <div className="space-y-8">
-            {/* HERO SECTION (Section 36 & 75) */}
-            <div className="relative rounded-3xl bg-gradient-to-b from-slate-900 via-slate-900/90 to-slate-950 border border-slate-800/90 p-6 sm:p-10 shadow-2xl overflow-hidden">
-              {/* Subtle ambient gradient mesh */}
-              <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-teal-500/10 blur-3xl pointer-events-none" />
-
-              <div className="max-w-2xl space-y-4 relative z-10">
-                <div className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400 tracking-wide uppercase">
-                  <span>EU & International Packaging Intelligence</span>
-                  <span>·</span>
-                  <span>25+ Languages</span>
-                </div>
-
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-[1.1] text-balance">
-                  Know what’s <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">really inside</span> your food.
-                </h1>
-
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl">
-                  Scan any European, UK, or North American barcode or ingredient panel to identify pork, questionable additives, and verified Halal compliance with zero guesswork.
-                </p>
-
-                {/* Primary Scan Action Launchers */}
-                <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                  <button
-                    onClick={() => setShowCameraScanner(true)}
-                    className="h-12 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-emerald-400 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2.5 shadow-xl shadow-emerald-500/20 active:scale-98 transition-all whitespace-nowrap"
-                  >
-                    <Camera className="w-5 h-5 stroke-[2.2]" />
-                    <span>Scan Ingredient Label</span>
-                  </button>
-
-                  <button
-                    onClick={() => setShowBarcodeScanner(true)}
-                    className="h-12 px-6 rounded-2xl bg-slate-900 hover:bg-slate-850 border border-slate-700/80 hover:border-emerald-500/60 text-white font-bold text-sm flex items-center justify-center gap-2.5 shadow-md active:scale-98 transition-all whitespace-nowrap"
-                  >
-                    <Barcode className="w-5 h-5 text-emerald-400" />
-                    <span>Scan Barcode</span>
-                  </button>
-
-                  <button
-                    onClick={() => setShowPorkCheckModal(true)}
-                    className="h-12 px-5 rounded-2xl bg-rose-950/40 hover:bg-rose-950/70 border border-rose-800/60 text-rose-300 hover:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all whitespace-nowrap"
-                  >
-                    <span>🐷 Pork Check</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+            {/* Front-and-Center Live Telephone Camera & Scanner */}
+            <UnifiedScannerView currentLang={currentLang} />
 
             {/* QUICK FEATURE LAUNCHPAD (Section 1: Core Product Experience) */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -891,7 +846,7 @@ export default function App() {
       {/* FOOTER */}
       <footer className="w-full max-w-6xl mx-auto px-4 py-8 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <span className="font-bold text-slate-300">HALALENS</span> · {t.tagline}
+          <span className="font-bold text-slate-300">Halalin'</span> · {t.tagline}
         </div>
         <div className="flex items-center gap-4 text-[11px]">
           <button onClick={() => setShowOfflineModal(true)} className="hover:text-slate-300">
@@ -913,7 +868,10 @@ export default function App() {
       <BottomNav
         currentView={currentView}
         onNavigate={(view) => setCurrentView(view)}
-        onOpenScanModal={() => setShowCameraScanner(true)}
+        onOpenScanModal={() => {
+          setCurrentView('home');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
         savedCount={savedResults.length}
         currentLang={currentLang}
       />

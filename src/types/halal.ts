@@ -18,6 +18,18 @@ export type PorkStatus =
   | 'POSSIBLE_PORK_SOURCE'
   | 'PORK_DETECTED';
 
+export type GlutenStatus =
+  | 'GLUTEN_FREE'
+  | 'CONTAINS_GLUTEN'
+  | 'MAY_CONTAIN_GLUTEN';
+
+export type KosherStatus =
+  | 'KOSHER_PAREVE_COMPATIBLE'
+  | 'KOSHER_DAIRY_COMPATIBLE'
+  | 'KOSHER_CERTIFIED'
+  | 'NOT_KOSHER'
+  | 'SOURCE_VERIFICATION_REQUIRED';
+
 export type CertificationStatus =
   | 'VERIFIED'
   | 'NOT_VERIFIED'
@@ -167,6 +179,24 @@ export interface AnalysisResult {
     confidence: ConfidenceLevel;
     confidenceScore: number; // 0-100
   };
+  glutenCheck: {
+    status: GlutenStatus;
+    containsGluten: boolean;
+    explanation: string;
+    flaggedGrains: string[];
+  };
+  kosherCheck: {
+    status: KosherStatus;
+    explanation: string;
+    dairyDetected: boolean;
+    meatDetected: boolean;
+  };
+  veganCheck: {
+    isVegan: boolean;
+    isVegetarian: boolean;
+    explanation: string;
+  };
+  detectedAdditives: Additive[];
   certification: {
     status: CertificationStatus;
     certifierName?: string;

@@ -23,6 +23,9 @@ import {
   Info,
   Scale,
   RefreshCw,
+  Wheat,
+  WheatOff,
+  Leaf,
 } from 'lucide-react';
 import { AnalysisResult, AnalyzedIngredient } from '../types/halal';
 import { generateManufacturerInquiry } from '../engine/classification';
@@ -293,6 +296,61 @@ export const ProductResultView: React.FC<ProductResultViewProps> = ({
               {certification.status === 'VERIFIED' ? 'Official Certificate' : 'Not on pack'}
             </span>
           </div>
+        </div>
+      </div>
+
+      {/* ADDITIONAL DIETARY VERDICTS: GLUTEN, KOSHER & VEGAN */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Gluten Card */}
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Gluten Status</span>
+            {result.glutenCheck.containsGluten ? <Wheat className="w-4 h-4 text-amber-400" /> : <WheatOff className="w-4 h-4 text-emerald-400" />}
+          </div>
+          <h4 className="text-sm font-extrabold text-white">
+            {result.glutenCheck.containsGluten ? '⚠️ Contains Gluten' : '🟢 Gluten-Free'}
+          </h4>
+          <p className="text-xs text-slate-300 leading-relaxed">
+            {result.glutenCheck.explanation}
+          </p>
+        </div>
+
+        {/* Kosher Card */}
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Kosher Compliance</span>
+            <span className="text-xs">✡️</span>
+          </div>
+          <h4 className="text-sm font-extrabold text-white">
+            {result.kosherCheck.status === 'NOT_KOSHER'
+              ? '🔴 Non-Kosher'
+              : result.kosherCheck.status === 'KOSHER_DAIRY_COMPATIBLE'
+              ? '🥛 Kosher Dairy'
+              : result.kosherCheck.status === 'SOURCE_VERIFICATION_REQUIRED'
+              ? '🟡 Verify Hechsher'
+              : '🟢 Kosher Pareve'}
+          </h4>
+          <p className="text-xs text-slate-300 leading-relaxed">
+            {result.kosherCheck.explanation}
+          </p>
+        </div>
+
+        {/* Vegan Card */}
+        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Plant & Vegan</span>
+            <Leaf className="w-4 h-4 text-emerald-400" />
+          </div>
+          <h4 className="text-sm font-extrabold text-white">
+            {result.veganCheck.isVegan
+              ? '🌱 100% Plant-Based'
+              : result.veganCheck.isVegetarian
+              ? '🧀 Vegetarian (Dairy)'
+              : '🥩 Animal Origin'}
+          </h4>
+          <p className="text-xs text-slate-300 leading-relaxed">
+            {result.veganCheck.explanation}
+          </p>
         </div>
       </div>
 
