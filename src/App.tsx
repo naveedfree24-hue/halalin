@@ -268,7 +268,7 @@ export default function App() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500/20 selection:text-emerald-300 pb-20 lg:pb-0 font-sans">
+    <div className="min-h-screen bg-[#FAF7F2] text-[#2B1810] flex flex-col selection:bg-[#C5A059]/20 selection:text-[#2B1810] pb-20 lg:pb-0 font-sans">
       {/* Top Bar Contract (Brand - Links - Controls) */}
       <TopBar
         currentLang={currentLang}
@@ -308,37 +308,37 @@ export default function App() {
           <div className="space-y-4">
             <button
               onClick={() => setCurrentView('home')}
-              className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5"
+              className="text-xs text-[#785E4F] hover:text-[#2B1810] flex items-center gap-1.5 font-semibold cursor-pointer"
             >
-              ← Back to App
+              ← Back to Halalin'
             </button>
-            <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-              <h2 className="text-xl font-bold text-white mb-2">HALALENS Administration Console</h2>
-              <p className="text-xs text-slate-400 mb-6">
-                Internal data quality, database health, and verification queue monitoring.
+            <div className="bg-white border border-[#E8DFD5] rounded-3xl p-6 shadow-sm">
+              <h2 className="text-xl font-bold text-[#2B1810] mb-2">Halalin' Verification Console</h2>
+              <p className="text-xs text-[#785E4F] mb-6">
+                Internal ingredient intelligence, database health, and verification queue monitoring.
               </p>
               <button
                 onClick={() => setShowSubmissionModal(true)}
-                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs mb-4"
+                className="px-4 py-2 rounded-xl bg-[#2B1810] hover:bg-[#3D2318] text-[#FAF7F2] font-medium text-xs mb-4 transition-colors cursor-pointer"
               >
                 + Submit Test Product
               </button>
               <div className="space-y-4">
                 {submissions.map((sub) => (
-                  <div key={sub.id} className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs">
+                  <div key={sub.id} className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#E8DFD5] text-xs">
                     <div className="flex justify-between items-center mb-1">
-                      <span className="font-bold text-white text-sm">{sub.productName} ({sub.brand})</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-emerald-300 font-mono">
+                      <span className="font-bold text-[#2B1810] text-sm">{sub.productName} ({sub.brand})</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 border border-emerald-300 text-emerald-800 font-mono font-semibold">
                         {sub.status}
                       </span>
                     </div>
-                    <p className="text-slate-300 font-mono text-[11px] mb-2">{sub.ingredientsText}</p>
-                    <div className="flex justify-between text-[11px] text-slate-500">
+                    <p className="text-[#554035] font-mono text-[11px] mb-2">{sub.ingredientsText}</p>
+                    <div className="flex justify-between text-[11px] text-[#785E4F]">
                       <span>{sub.country} · {sub.barcode || 'N/A'}</span>
                       {sub.status !== 'VERIFIED' && (
                         <button
                           onClick={() => handleApproveSubmission(sub.id)}
-                          className="text-emerald-400 hover:underline font-semibold"
+                          className="text-[#C5A059] hover:underline font-semibold cursor-pointer"
                         >
                           Approve Record
                         </button>
@@ -355,23 +355,23 @@ export default function App() {
         {currentView === 'search' && (
           <div className="space-y-6">
             <div className="space-y-2">
-              <h1 className="text-2xl font-extrabold text-white tracking-tight">
+              <h1 className="text-2xl font-extrabold text-[#2B1810] tracking-tight">
                 Search Product & Ingredient Intelligence
               </h1>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-[#785E4F]">
                 Instant database lookup for 25+ European & international food brands, E-numbers, and suspicious additives.
               </p>
 
               {/* Search Field */}
               <div className="relative mt-3">
-                <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-slate-400" />
+                <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-[#8A7061]" />
                 <input
                   type="text"
                   autoFocus
                   placeholder={t.searchPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-2xl bg-slate-900 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+                  className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white border border-[#E8DFD5] text-sm text-[#2B1810] placeholder-[#8A7061] focus:outline-none focus:border-[#C5A059] shadow-sm"
                 />
               </div>
 
@@ -379,30 +379,30 @@ export default function App() {
               <div className="flex items-center gap-2 pt-2">
                 <button
                   onClick={() => setSearchCategory('ALL')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                     searchCategory === 'ALL'
-                      ? 'bg-slate-800 text-white'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#2B1810] text-[#FAF7F2]'
+                      : 'bg-white border border-[#E8DFD5] text-[#785E4F] hover:text-[#2B1810]'
                   }`}
                 >
                   All ({searchResultsProducts.length + searchResultsAdditives.length})
                 </button>
                 <button
                   onClick={() => setSearchCategory('PRODUCTS')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                     searchCategory === 'PRODUCTS'
-                      ? 'bg-slate-800 text-white'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#2B1810] text-[#FAF7F2]'
+                      : 'bg-white border border-[#E8DFD5] text-[#785E4F] hover:text-[#2B1810]'
                   }`}
                 >
                   Packaged Products ({searchResultsProducts.length})
                 </button>
                 <button
                   onClick={() => setSearchCategory('ADDITIVES')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                     searchCategory === 'ADDITIVES'
-                      ? 'bg-slate-800 text-white'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-[#2B1810] text-[#FAF7F2]'
+                      : 'bg-white border border-[#E8DFD5] text-[#785E4F] hover:text-[#2B1810]'
                   }`}
                 >
                   E-Numbers ({searchResultsAdditives.length})
@@ -414,7 +414,7 @@ export default function App() {
             <div className="space-y-6">
               {(searchCategory === 'ALL' || searchCategory === 'PRODUCTS') && (
                 <div className="space-y-2">
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  <h3 className="text-xs font-bold text-[#785E4F] uppercase tracking-wider">
                     Packaged Food Products
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -422,22 +422,22 @@ export default function App() {
                       <div
                         key={p.id}
                         onClick={() => handleSelectProductBarcode(p.ean)}
-                        className="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 cursor-pointer transition-all flex items-center justify-between group"
+                        className="p-4 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all flex items-center justify-between group"
                       >
                         <div className="truncate pr-3">
-                          <div className="flex items-center gap-2 text-xs text-slate-400 mb-0.5">
-                            <span className="font-semibold text-emerald-400">{p.brand}</span>
+                          <div className="flex items-center gap-2 text-xs text-[#785E4F] mb-0.5">
+                            <span className="font-semibold text-[#C5A059]">{p.brand}</span>
                             <span>·</span>
                             <span>{p.marketCountry}</span>
                           </div>
-                          <h4 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors truncate">
+                          <h4 className="text-sm font-bold text-[#2B1810] group-hover:text-[#C5A059] transition-colors truncate">
                             {p.name}
                           </h4>
-                          <span className="text-[10px] text-slate-500 font-mono">
+                          <span className="text-[10px] text-[#8A7061] font-mono">
                             {p.ean}
                           </span>
                         </div>
-                        <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-emerald-400 shrink-0" />
+                        <ChevronRight className="w-4 h-4 text-[#8A7061] group-hover:text-[#C5A059] shrink-0" />
                       </div>
                     ))}
                   </div>
@@ -446,7 +446,7 @@ export default function App() {
 
               {(searchCategory === 'ALL' || searchCategory === 'ADDITIVES') && (
                 <div className="space-y-2">
-                  <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  <h3 className="text-xs font-bold text-[#785E4F] uppercase tracking-wider">
                     E-Numbers & Additives
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -456,26 +456,26 @@ export default function App() {
                         onClick={() => {
                           setCurrentView('additives');
                         }}
-                        className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 cursor-pointer transition-all"
+                        className="p-3.5 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all"
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className="font-mono font-bold text-white text-sm">
+                          <span className="font-mono font-bold text-[#2B1810] text-sm">
                             {a.eNumber}
                           </span>
                           <span
-                            className={`text-[10px] px-2 py-0.5 rounded font-mono ${
+                            className={`text-[10px] px-2 py-0.5 rounded font-mono font-semibold ${
                               a.halalStatus === 'NOT_HALAL' || a.halalStatus === 'PORK_DERIVED'
-                                ? 'bg-rose-950 text-rose-300 border border-rose-800'
+                                ? 'bg-rose-100 text-rose-800 border border-rose-300'
                                 : a.halalStatus === 'SOURCE_DEPENDENT'
-                                ? 'bg-amber-950 text-amber-300 border border-amber-800'
-                                : 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                                ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                                : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                             }`}
                           >
                             {a.halalStatus === 'SOURCE_DEPENDENT' ? 'Verify' : a.halalStatus === 'NOT_HALAL' ? 'Prohibited' : 'Halal'}
                           </span>
                         </div>
-                        <h4 className="text-xs font-semibold text-slate-300 truncate">{a.name}</h4>
-                        <p className="text-[11px] text-slate-500 truncate mt-0.5">{a.function}</p>
+                        <h4 className="text-xs font-semibold text-[#2B1810] truncate">{a.name}</h4>
+                        <p className="text-[11px] text-[#785E4F] truncate mt-0.5">{a.function}</p>
                       </div>
                     ))}
                   </div>
@@ -490,17 +490,17 @@ export default function App() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-extrabold text-white tracking-tight">
+                <h1 className="text-2xl font-extrabold text-[#2B1810] tracking-tight">
                   Saved Products & Scan History
                 </h1>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-[#785E4F]">
                   {savedResults.length} saved product(s) stored locally on your device
                 </p>
               </div>
               {savedResults.length > 0 && (
                 <button
                   onClick={() => setSavedResults([])}
-                  className="text-xs text-rose-400 hover:underline"
+                  className="text-xs text-rose-600 hover:underline font-semibold cursor-pointer"
                 >
                   Clear All
                 </button>
@@ -508,15 +508,15 @@ export default function App() {
             </div>
 
             {savedResults.length === 0 ? (
-              <div className="p-12 text-center rounded-3xl bg-slate-900 border border-slate-800 space-y-3">
-                <Bookmark className="w-10 h-10 text-slate-600 mx-auto" />
-                <h3 className="text-sm font-bold text-white">No Saved Products Yet</h3>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto">
+              <div className="p-12 text-center rounded-3xl bg-white border border-[#E8DFD5] shadow-sm space-y-3">
+                <Bookmark className="w-10 h-10 text-[#C5A059] mx-auto opacity-70" />
+                <h3 className="text-sm font-bold text-[#2B1810]">No Saved Products Yet</h3>
+                <p className="text-xs text-[#785E4F] max-w-sm mx-auto">
                   When analyzing a food package, tap the bookmark icon to save it for quick offline reference while grocery shopping.
                 </p>
                 <button
                   onClick={() => setCurrentView('home')}
-                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors"
+                  className="px-4 py-2 rounded-xl bg-[#2B1810] hover:bg-[#3D2318] text-[#FAF7F2] text-xs font-semibold transition-colors cursor-pointer"
                 >
                   Start Scanning
                 </button>
@@ -530,27 +530,27 @@ export default function App() {
                       setCurrentResult(r);
                       setCurrentView('result');
                     }}
-                    className="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 cursor-pointer transition-all flex items-center justify-between group"
+                    className="p-4 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all flex items-center justify-between group"
                   >
                     <div className="truncate pr-3">
-                      <div className="flex items-center gap-2 text-xs text-slate-400 mb-0.5">
-                        <span className="font-semibold text-emerald-400">
+                      <div className="flex items-center gap-2 text-xs text-[#785E4F] mb-0.5">
+                        <span className="font-semibold text-[#C5A059]">
                           {r.product?.brand || 'Scanned Label'}
                         </span>
                         <span>·</span>
                         <span>{r.product?.marketCountry || 'Global'}</span>
                       </div>
-                      <h4 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors truncate">
+                      <h4 className="text-sm font-bold text-[#2B1810] group-hover:text-[#C5A059] transition-colors truncate">
                         {r.product?.name || 'Ingredient Text Analysis'}
                       </h4>
                       <div className="flex items-center gap-2 mt-1">
                         <span
-                          className={`text-[10px] font-mono px-2 py-0.5 rounded ${
+                          className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
                             r.porkCheck.status === 'PORK_DETECTED'
-                              ? 'bg-rose-950 text-rose-300 border border-rose-800'
+                              ? 'bg-rose-100 text-rose-800 border border-rose-300'
                               : r.porkCheck.status === 'POSSIBLE_PORK_SOURCE'
-                              ? 'bg-amber-950 text-amber-300 border border-amber-800'
-                              : 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                              ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                              : 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                           }`}
                         >
                           {r.porkCheck.status === 'PORK_DETECTED'
@@ -559,12 +559,12 @@ export default function App() {
                             ? '🟡 Ambiguous'
                             : '🟢 Pork-Free'}
                         </span>
-                        <span className="text-[10px] text-slate-500 font-mono">
+                        <span className="text-[10px] text-[#785E4F] font-mono">
                           {r.halalAnalysis.confidenceScore}% Confidence
                         </span>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-600 group-hover:text-emerald-400 shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-[#8A7061] group-hover:text-[#C5A059] shrink-0" />
                   </div>
                 ))}
               </div>
@@ -574,7 +574,7 @@ export default function App() {
 
         {/* VIEW 7: UNIFIED HOME SCREEN (One place to scan and verify Halal, Gluten, Kosher, Pork, and E-Codes) */}
         {(currentView === 'home' || currentView === 'scan') && (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {/* Front-and-Center Live Telephone Camera & Scanner */}
             <UnifiedScannerView currentLang={currentLang} />
 
@@ -583,16 +583,16 @@ export default function App() {
               {/* Launcher 1: Camera OCR */}
               <div
                 onClick={() => setShowCameraScanner(true)}
-                className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 cursor-pointer transition-all space-y-2 group"
+                className="p-4 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all space-y-2 group"
               >
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
-                  <Camera className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl bg-[#FAF7F2] border border-[#E8DFD5] flex items-center justify-center text-[#2B1810] group-hover:scale-105 transition-transform">
+                  <Camera className="w-4 h-4 text-[#C5A059]" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-xs font-bold text-[#2B1810] group-hover:text-[#C5A059] transition-colors">
                     Camera OCR
                   </h3>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-[11px] text-[#785E4F] mt-0.5">
                     Photograph French, German, or English text
                   </p>
                 </div>
@@ -601,16 +601,16 @@ export default function App() {
               {/* Launcher 2: Barcode Scanner */}
               <div
                 onClick={() => setShowBarcodeScanner(true)}
-                className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 cursor-pointer transition-all space-y-2 group"
+                className="p-4 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all space-y-2 group"
               >
-                <div className="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400 group-hover:scale-105 transition-transform">
-                  <Barcode className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl bg-[#FAF7F2] border border-[#E8DFD5] flex items-center justify-center text-[#2B1810] group-hover:scale-105 transition-transform">
+                  <Barcode className="w-4 h-4 text-[#C5A059]" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-xs font-bold text-[#2B1810] group-hover:text-[#C5A059] transition-colors">
                     Barcode EAN-13
                   </h3>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-[11px] text-[#785E4F] mt-0.5">
                     Instant lookups for European foods
                   </p>
                 </div>
@@ -619,16 +619,16 @@ export default function App() {
               {/* Launcher 3: E-Number Guide */}
               <div
                 onClick={() => setCurrentView('additives')}
-                className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 cursor-pointer transition-all space-y-2 group"
+                className="p-4 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all space-y-2 group"
               >
-                <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
-                  <Info className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl bg-[#FAF7F2] border border-[#E8DFD5] flex items-center justify-center text-[#2B1810] group-hover:scale-105 transition-transform">
+                  <Info className="w-4 h-4 text-[#C5A059]" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-xs font-bold text-[#2B1810] group-hover:text-[#C5A059] transition-colors">
                     E-Number Guide
                   </h3>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-[11px] text-[#785E4F] mt-0.5">
                     E120, E471, E441 origin analysis
                   </p>
                 </div>
@@ -637,34 +637,34 @@ export default function App() {
               {/* Launcher 4: Travel Mode */}
               <div
                 onClick={() => setShowTravelModal(true)}
-                className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-emerald-500/50 cursor-pointer transition-all space-y-2 group"
+                className="p-4 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all space-y-2 group"
               >
-                <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-transform">
-                  <Plane className="w-4 h-4" />
+                <div className="w-9 h-9 rounded-xl bg-[#FAF7F2] border border-[#E8DFD5] flex items-center justify-center text-[#2B1810] group-hover:scale-105 transition-transform">
+                  <Plane className="w-4 h-4 text-[#C5A059]" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors">
+                  <h3 className="text-xs font-bold text-[#2B1810] group-hover:text-[#C5A059] transition-colors">
                     Travel Mode
                   </h3>
-                  <p className="text-[11px] text-slate-400 mt-0.5">
+                  <p className="text-[11px] text-[#785E4F] mt-0.5">
                     France, Germany, UK, USA profiles
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* RECENT SCANS SECTION (Section 36) */}
+            {/* RECENT SCANS SECTION */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-emerald-400" />
-                  <h2 className="text-sm font-bold text-white uppercase tracking-wider">
+                  <Clock className="w-4 h-4 text-[#C5A059]" />
+                  <h2 className="text-sm font-bold text-[#2B1810] uppercase tracking-wider">
                     {t.recentScans}
                   </h2>
                 </div>
                 <button
                   onClick={() => setCurrentView('saved')}
-                  className="text-xs text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1"
+                  className="text-xs text-[#785E4F] hover:text-[#2B1810] transition-colors flex items-center gap-1 font-semibold cursor-pointer"
                 >
                   <span>View All Saved</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -684,37 +684,26 @@ export default function App() {
                         setCurrentResult(res);
                         setCurrentView('result');
                       }}
-                      className="p-4 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 cursor-pointer transition-all space-y-3 shadow-md group"
+                      className="p-4 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all space-y-2"
                     >
-                      <div className="flex items-start justify-between">
-                        <div className="truncate pr-2">
-                          <span className="text-[10px] text-slate-500 uppercase font-mono">
-                            {res.product?.brand || 'Scanned Label'}
-                          </span>
-                          <h3 className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors truncate">
-                            {res.product?.name || 'Raw Ingredient Text'}
-                          </h3>
-                        </div>
+                      <div className="flex items-center justify-between text-xs text-[#785E4F]">
+                        <span className="font-bold text-[#2B1810]">{res.product?.brand || 'Verified Food'}</span>
+                        <span>{res.product?.marketCountry || 'EU'}</span>
+                      </div>
+                      <h4 className="text-xs font-bold text-[#2B1810] truncate">
+                        {res.product?.name || 'Scanned Ingredients'}
+                      </h4>
+                      <div className="flex items-center justify-between pt-1 text-[11px]">
                         <span
-                          className={`text-[10px] font-mono px-2 py-0.5 rounded shrink-0 ${
-                            isPork
-                              ? 'bg-rose-950 text-rose-300 border border-rose-800'
-                              : isAmbiguous
-                              ? 'bg-amber-950 text-amber-300 border border-amber-800'
-                              : 'bg-emerald-950 text-emerald-300 border border-emerald-800'
+                          className={`font-bold ${
+                            isPork ? 'text-rose-600' : isAmbiguous ? 'text-amber-600' : 'text-emerald-700'
                           }`}
                         >
-                          {isPork ? '🔴 Pork' : isAmbiguous ? '🟡 Verify' : '🟢 Halal'}
+                          {isPork ? '🔴 Prohibited Pork' : isAmbiguous ? '🟡 Check Sourcing' : '🟢 Halal'}
                         </span>
-                      </div>
-
-                      <p className="text-[11px] text-slate-400 line-clamp-2">
-                        {res.porkCheck.explanation}
-                      </p>
-
-                      <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] text-slate-500">
-                        <span>Confidence: {res.halalAnalysis.confidenceScore}%</span>
-                        <span className="text-emerald-400 font-medium group-hover:underline">View Breakdown →</span>
+                        <span className="text-[10px] text-[#785E4F] font-mono">
+                          {res.halalAnalysis.confidenceScore}% Score
+                        </span>
                       </div>
                     </div>
                   );
@@ -723,17 +712,18 @@ export default function App() {
             </div>
 
             {/* POPULAR VERIFIED PRODUCTS CAROUSEL (Section 36) */}
+            {/* POPULAR VERIFIED PRODUCTS CAROUSEL */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <h2 className="text-sm font-bold text-white uppercase tracking-wider">
-                    {t.popularProducts} (European & US Shelf Goods)
+                  <ShieldCheck className="w-4 h-4 text-[#C5A059]" />
+                  <h2 className="text-sm font-bold text-[#2B1810] uppercase tracking-wider">
+                    {t.popularProducts} (European & International Goods)
                   </h2>
                 </div>
                 <button
                   onClick={() => setCurrentView('search')}
-                  className="text-xs text-slate-400 hover:text-emerald-400 transition-colors"
+                  className="text-xs text-[#785E4F] hover:text-[#2B1810] font-semibold transition-colors cursor-pointer"
                 >
                   Browse Full Database
                 </button>
@@ -741,39 +731,39 @@ export default function App() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {PRODUCTS_DATABASE.slice(0, 4).map((product) => {
-                  const isPork = product.id.includes('chamallows') || product.id.includes('goldbaren_de');
+                  const isPork = product.id.includes('chamallows') || product.id.includes('goldbaren_de') || product.id.includes('saucisse');
                   const isHalal = product.certifications[0]?.status === 'VERIFIED';
 
                   return (
                     <div
                       key={product.id}
                       onClick={() => handleSelectProductBarcode(product.ean)}
-                      className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 cursor-pointer transition-all flex flex-col justify-between group"
+                      className="p-3.5 rounded-2xl bg-white border border-[#E8DFD5] hover:border-[#C5A059] shadow-sm cursor-pointer transition-all flex flex-col justify-between group"
                     >
                       <div>
-                        <div className="flex justify-between items-center text-[10px] text-slate-500 mb-1">
+                        <div className="flex justify-between items-center text-[10px] text-[#785E4F] mb-1">
                           <span>{product.marketCountry}</span>
                           <span
-                            className={`px-1.5 py-0.2 rounded font-mono ${
+                            className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
                               isPork
-                                ? 'bg-rose-950 text-rose-300'
+                                ? 'bg-rose-100 text-rose-800'
                                 : isHalal
-                                ? 'bg-emerald-950 text-emerald-300'
-                                : 'bg-amber-950 text-amber-300'
+                                ? 'bg-emerald-100 text-emerald-800'
+                                : 'bg-amber-100 text-amber-800'
                             }`}
                           >
-                            {isPork ? 'Pork' : isHalal ? 'Certified' : 'Verify'}
+                            {isPork ? '🔴 Pork' : isHalal ? '🟢 Certified' : '🟡 Verify'}
                           </span>
                         </div>
-                        <h4 className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors line-clamp-1">
+                        <h4 className="text-xs font-bold text-[#2B1810] group-hover:text-[#C5A059] transition-colors line-clamp-1">
                           {product.name}
                         </h4>
-                        <p className="text-[11px] text-slate-400">{product.brand}</p>
+                        <p className="text-[11px] text-[#785E4F]">{product.brand}</p>
                       </div>
 
-                      <div className="mt-3 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                      <div className="mt-3 pt-2 border-t border-[#F0EAE1] flex items-center justify-between text-[10px] text-[#8A7061] font-mono">
                         <span>{product.ean}</span>
-                        <span className="text-emerald-400">Scan →</span>
+                        <span className="text-[#C5A059] font-bold">Scan →</span>
                       </div>
                     </div>
                   );
@@ -782,39 +772,39 @@ export default function App() {
             </div>
 
             {/* HIGH-ALERT INGREDIENTS BANNER (Section 9) */}
-            <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-3">
+            <div className="bg-white border border-[#E8DFD5] rounded-3xl p-5 sm:p-6 space-y-3 shadow-sm">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-400" />
-                <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                <AlertTriangle className="w-4 h-4 text-[#C5A059]" />
+                <h3 className="text-xs font-bold text-[#2B1810] uppercase tracking-wider">
                   Top 4 Ingredients Requiring Vigilance in Europe & North America
                 </h3>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                  <div className="font-bold text-rose-400 mb-0.5">Gelatin (E441)</div>
-                  <p className="text-[11px] text-slate-400">
+                <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#E8DFD5]">
+                  <div className="font-bold text-rose-700 mb-0.5">Gelatin (E441)</div>
+                  <p className="text-[11px] text-[#785E4F] leading-relaxed">
                     Over 70% of unspecified EU/US food gelatin is porcine (pork). Look for certified beef or fish.
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                  <div className="font-bold text-amber-400 mb-0.5">E471 (Mono/Diglycerides)</div>
-                  <p className="text-[11px] text-slate-400">
+                <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#E8DFD5]">
+                  <div className="font-bold text-amber-700 mb-0.5">E471 (Mono/Diglycerides)</div>
+                  <p className="text-[11px] text-[#785E4F] leading-relaxed">
                     Can be manufactured from plant or animal fats. Check for "vegetable origin" declaration.
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                  <div className="font-bold text-rose-400 mb-0.5">Carmine / E120</div>
-                  <p className="text-[11px] text-slate-400">
+                <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#E8DFD5]">
+                  <div className="font-bold text-rose-700 mb-0.5">Carmine / E120</div>
+                  <p className="text-[11px] text-[#785E4F] leading-relaxed">
                     Red food colouring obtained from crushed cochineal insects. Non-halal in major standards.
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-950 border border-slate-800">
-                  <div className="font-bold text-amber-400 mb-0.5">Traditional Rennet</div>
-                  <p className="text-[11px] text-slate-400">
+                <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#E8DFD5]">
+                  <div className="font-bold text-amber-700 mb-0.5">Traditional Rennet</div>
+                  <p className="text-[11px] text-[#785E4F] leading-relaxed">
                     Enzyme from unweaned calf stomachs. Microbial rennet is plant/fermentation safe.
                   </p>
                 </div>
@@ -822,19 +812,19 @@ export default function App() {
             </div>
 
             {/* COMMUNITY FLYWHEEL CTA (Section 28) */}
-            <div className="rounded-3xl bg-emerald-950/20 border border-emerald-800/40 p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="rounded-3xl bg-white border border-[#E8DFD5] p-5 sm:p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <HeartHandshake className="w-4 h-4 text-emerald-400" />
-                  <h3 className="text-sm font-bold text-white">Found an Unlisted Package?</h3>
+                  <HeartHandshake className="w-4 h-4 text-[#C5A059]" />
+                  <h3 className="text-sm font-bold text-[#2B1810]">Found an Unlisted Package?</h3>
                 </div>
-                <p className="text-xs text-slate-300 max-w-xl">
-                  Photograph the ingredient panel and submit it to the global review queue. Every scan improves HALALENS for consumers worldwide.
+                <p className="text-xs text-[#785E4F] max-w-xl">
+                  Photograph the ingredient panel with your phone camera. Our AI agent verifies and indexes new items for shoppers worldwide.
                 </p>
               </div>
               <button
                 onClick={() => setShowSubmissionModal(true)}
-                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs whitespace-nowrap shadow-md transition-colors"
+                className="px-4 py-2.5 rounded-xl bg-[#2B1810] hover:bg-[#3D2318] text-[#FAF7F2] font-semibold text-xs whitespace-nowrap shadow-sm transition-colors cursor-pointer"
               >
                 Contribute Packaging
               </button>
@@ -844,21 +834,21 @@ export default function App() {
       </main>
 
       {/* FOOTER */}
-      <footer className="w-full max-w-6xl mx-auto px-4 py-8 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <footer className="w-full max-w-6xl mx-auto px-4 py-8 border-t border-[#E8DFD5] text-xs text-[#785E4F] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <span className="font-bold text-slate-300">Halalin'</span> · {t.tagline}
+          <span className="font-bold text-[#2B1810]">Halalin'</span> · {t.tagline}
         </div>
         <div className="flex items-center gap-4 text-[11px]">
-          <button onClick={() => setShowOfflineModal(true)} className="hover:text-slate-300">
+          <button onClick={() => setShowOfflineModal(true)} className="hover:text-[#2B1810] cursor-pointer">
             Offline Mode
           </button>
-          <button onClick={() => setShowPreferencesModal(true)} className="hover:text-slate-300">
+          <button onClick={() => setShowPreferencesModal(true)} className="hover:text-[#2B1810] cursor-pointer">
             Dietary Filters
           </button>
-          <button onClick={() => setCurrentView('certifiers')} className="hover:text-slate-300">
+          <button onClick={() => setCurrentView('certifiers')} className="hover:text-[#2B1810] cursor-pointer">
             Certifiers
           </button>
-          <button onClick={() => setCurrentView('admin')} className="hover:text-slate-300">
+          <button onClick={() => setCurrentView('admin')} className="hover:text-[#2B1810] cursor-pointer">
             Admin
           </button>
         </div>

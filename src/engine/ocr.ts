@@ -18,6 +18,17 @@ export interface SampleIngredientLabel {
 
 export const SAMPLE_INGREDIENT_LABELS: SampleIngredientLabel[] = [
   {
+    id: 'sample_french_saucisse_porc',
+    title: 'Saucisse de Porc (French Pork Sausage)',
+    brand: 'Charcuterie de France',
+    country: '🇫🇷 France',
+    language: 'fr',
+    rawText: 'Ingrédients: Viande de porc (origine France) 90%, gras de porc, sel, lactose, épices, dextrose, ail, boyau naturel de porc, conservateur: nitrite de sodium.',
+    expectedPorkStatus: 'PORK_DETECTED',
+    expectedHalalStatus: 'PORK_DERIVED',
+    packagingMockColor: 'from-rose-950 to-slate-900',
+  },
+  {
     id: 'sample_french_marshmallow',
     title: 'Chamallows Guimauves (French Packaging)',
     brand: 'Haribo France',

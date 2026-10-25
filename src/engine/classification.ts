@@ -185,18 +185,25 @@ export function runHalalAnalysis(
     .map((ing) => ing.matchedAdditive!)
     .filter((add, index, self) => index === self.findIndex((a) => a.eNumber === add.eNumber));
 
-  // 8. CONFIDENCE ENGINE (Section 23)
-  let baseScore = 90;
-  if (ocrConfidence < 85) baseScore -= 15;
-  if (langConfidence < 70) baseScore -= 10;
-  if (verifyCount > 0) baseScore -= Math.min(25, verifyCount * 8);
-  if (product?.dataQualityScore) {
-    baseScore = Math.round((baseScore + product.dataQualityScore) / 2);
+  // 8. CONFIDENCE & COMPATIBILITY ENGINE (Zero tolerance for Pork / Swine)
+  let confidenceScore = 95;
+  if (explicitPorkFound || overallHalalStatus === 'PORK_DERIVED' || overallHalalStatus === 'NOT_HALAL') {
+    confidenceScore = 0; // 0% Halal Compatibility on Pork / Prohibited
+  } else if (overallHalalStatus === 'SOURCE_DEPENDENT') {
+    confidenceScore = 55; // Sourcing verification required (ambiguous E471 etc.)
+  } else {
+    let baseScore = 95;
+    if (ocrConfidence < 85) baseScore -= 10;
+    if (langConfidence < 70) baseScore -= 5;
+    if (product?.dataQualityScore) {
+      baseScore = Math.round((baseScore + product.dataQualityScore) / 2);
+    }
+    confidenceScore = Math.max(85, Math.min(100, baseScore));
   }
-  const confidenceScore = Math.max(35, Math.min(99, baseScore));
 
   let confidenceLevel: ConfidenceLevel = 'HIGH';
-  if (confidenceScore < 65) confidenceLevel = 'LOW';
+  if (confidenceScore === 0) confidenceLevel = 'HIGH'; // High confidence in detection
+  else if (confidenceScore < 65) confidenceLevel = 'LOW';
   else if (confidenceScore < 85) confidenceLevel = 'MEDIUM';
 
   return {

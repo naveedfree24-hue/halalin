@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halalin' — 85s UGC Video Guide (Subtitles & Slow Classical Background)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 50% 15%, #0f172a 0%, #020617 100%);
+      color: #f8fafc;
+    }
+    .serif-title {
+      font-family: 'Playfair Display', serif;
+    }
+    @keyframes scanline {
+      0% { top: 6%; opacity: 0.2; }
+      50% { opacity: 1; }
+      100% { top: 92%; opacity: 0.3; }
+    }
+    .laser-beam {
+      animation: scanline 2.2s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+    .pulse-glow {
+      animation: pulseGlow 2.8s ease-in-out infinite;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    @keyframes classicalWave {
+      0%, 100% { height: 3px; }
+      50% { height: 16px; }
+    }
+    .wave-active {
+      animation: classicalWave 1.4s ease-in-out infinite alternate;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-3 sm:p-6 lg:p-8">
+
+  <!-- Top Navigation Bar -->
+  <nav class="max-w-6xl w-full mx-auto flex items-center justify-between pb-6 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-2 group">
+        <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 group-hover:border-emerald-400 transition-colors">
+          🛡️
+        </div>
+        <span class="text-lg font-black tracking-tight text-white">
+          Halal<span class="text-emerald-400">in'</span>
+        </span>
+      </a>
+      <span class="text-xs text-amber-400 font-mono hidden sm:inline">| 🎻 Subtitles & Slow Classical Soundtrack (No Talking Voice)</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="/" class="px-3.5 py-1.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 text-xs font-semibold text-slate-300 hover:text-white transition-all">
+        ← Return to Main Scanner App
+      </a>
+      <button id="downloadSrtBtn" class="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-lg transition-all">
+        💾 Download .SRT Subtitles
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Video Player Stage -->
+  <main class="max-w-6xl w-full mx-auto my-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Left Column: The 9:16 Vertical Video Player (5 Columns) -->
+    <div class="lg:col-span-5 flex flex-col items-center space-y-4">
+      
+      <!-- Phone Frame Container -->
+      <div class="relative w-[320px] sm:w-[360px] h-[640px] sm:h-[690px] bg-slate-950 rounded-[44px] border-[8px] border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col justify-between select-none">
+        
+        <!-- Phone Top Header with Classical Waveform & Notch -->
+        <div class="absolute top-2 inset-x-0 flex justify-between items-center px-6 z-40 pointer-events-none">
+          <!-- Slow Classical Music Frequency Waves -->
+          <div id="classicalWaves" class="flex items-end gap-1 h-5 opacity-70">
+            <span class="w-1 bg-amber-400/80 rounded-full h-1.5 wave-active" style="animation-delay: 0.1s"></span>
+            <span class="w-1 bg-amber-400/80 rounded-full h-3 wave-active" style="animation-delay: 0.4s"></span>
+            <span class="w-1 bg-amber-400/80 rounded-full h-1 wave-active" style="animation-delay: 0.2s"></span>
+            <span class="w-1 bg-amber-400/80 rounded-full h-4 wave-active" style="animation-delay: 0.6s"></span>
+          </div>
+
+          <!-- Dynamic Notch -->
+          <div class="w-20 h-4 bg-slate-900 rounded-full flex items-center justify-end px-2">
+            <div class="w-2 h-2 rounded-full bg-emerald-500/80 animate-ping"></div>
+          </div>
+
+          <div class="text-[10px] font-mono text-amber-300 font-bold flex items-center gap-1">
+            <span>🎻</span> 85s UGC
+          </div>
+        </div>
+
+        <!-- Video Scene Visual Animation Stage -->
+        <div id="videoCanvas" class="relative w-full h-full flex flex-col justify-between p-5 pt-8 bg-gradient-to-b from-slate-900 via-slate-950 to-black overflow-hidden transition-all duration-700">
+          
+          <!-- Top Telemetry Header -->
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 z-20">
+            <span class="flex items-center gap-1.5 bg-black/60 px-2.5 py-1 rounded-full border border-slate-800">
+              <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+              REC · 85s
+            </span>
+            <span id="sceneTag" class="bg-black/60 px-2.5 py-1 rounded-full border border-slate-800 text-emerald-400 font-bold">
+              SCENE 1: THE HOOK
+            </span>
+          </div>
+
+          <!-- Dynamic Visual Simulation Center -->
+          <div class="relative my-auto flex flex-col items-center text-center z-10 px-2">
+            <!-- Simulated Laser Scanner -->
+            <div id="laserScanline" class="hidden absolute -inset-x-4 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_20px_#10b981] laser-beam z-30"></div>
+
+            <!-- Scene Graphic / Icon Backdrop -->
+            <div id="sceneGraphic" class="w-24 h-24 rounded-3xl bg-slate-900/90 border border-slate-800 flex items-center justify-center text-5xl mb-4 shadow-xl pulse-glow">
+              🛒
+            </div>
+
+            <!-- Dynamic Headline -->
+            <h2 id="sceneTitle" class="text-lg font-black text-white tracking-tight leading-snug">
+              The Grocery Label Struggle
+            </h2>
+            <p id="sceneDesc" class="text-xs text-slate-300 mt-1 max-w-[260px] leading-relaxed">
+              Squinting at tiny foreign E-numbers in French & German supermarket aisles...
+            </p>
+
+            <!-- Interactive Food Packaging Simulation Card -->
+            <div id="packageMock" class="mt-4 w-full max-w-[270px] p-3 rounded-2xl bg-black/75 border border-slate-800 text-left space-y-1.5 shadow-2xl backdrop-blur-sm transition-all duration-300">
+              <div class="flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                <span id="packCountry">🇫🇷 Paris, France</span>
+                <span id="packBarcode" class="text-emerald-400">EAN-13</span>
+              </div>
+              <div id="packName" class="text-xs font-bold text-white truncate">Chamallows Guimauves</div>
+              <div id="packIngredients" class="text-[10px] text-slate-300 font-mono line-clamp-2 italic">
+                "Sirop de glucose, sucre, gélatine de porc, arôme naturel..."
+              </div>
+            </div>
+
+            <!-- Live Dietary Badges Row -->
+            <div id="dietaryPillars" class="hidden mt-3 flex flex-wrap gap-1 justify-center max-w-[280px]">
+              <span class="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-600 text-[9px] font-bold text-emerald-300">🟢 Halal</span>
+              <span class="px-2 py-0.5 rounded bg-rose-950 border border-rose-600 text-[9px] font-bold text-rose-300">🐷 Pork Check</span>
+              <span class="px-2 py-0.5 rounded bg-amber-950 border border-amber-600 text-[9px] font-bold text-amber-300">🌾 Gluten-Free</span>
+              <span class="px-2 py-0.5 rounded bg-blue-950 border border-blue-600 text-[9px] font-bold text-blue-300">✡️ Kosher</span>
+            </div>
+          </div>
+
+          <!-- Stylized High-Impact Cinematic Subtitles (No Voice Talking — Pure Clear Subtitles) -->
+          <div class="relative z-30 bg-black/90 backdrop-blur-md p-4 rounded-2xl border-2 border-amber-500/40 text-center shadow-[0_10px_30px_rgba(0,0,0,0.9)] mb-1">
+            <div class="flex items-center justify-between text-[9px] text-amber-400 font-mono uppercase tracking-wider mb-1.5 font-bold">
+              <span class="flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
+                <span>SUBTITLES</span>
+              </span>
+              <span><span id="timeText">0:00</span> / 1:25</span>
+            </div>
+            <p id="liveSubtitles" class="text-base sm:text-lg font-black text-yellow-300 tracking-tight leading-snug drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+              "Stop googling random chemical codes and squinting at tiny labels in the grocery aisle..."
+            </p>
+            <p id="liveSubtitlesSecondary" class="text-xs text-white/90 font-medium mt-1.5 leading-snug">
+              It’s exhausting, half the answers online are outdated, and you’re still left guessing.
+            </p>
+          </div>
+        </div>
+
+        <!-- Video Player Control Bar -->
+        <div class="bg-slate-900 border-t border-slate-800 p-3 flex flex-col gap-2 z-30">
+          
+          <!-- Scrubber Timeline Bar -->
+          <div class="flex items-center gap-2">
+            <span id="currentTimeLabel" class="text-[10px] font-mono text-slate-400 w-8">0:00</span>
+            <input id="videoScrubber" type="range" min="0" max="85" step="0.5" value="0" class="flex-1 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+            <span class="text-[10px] font-mono text-slate-400 w-8">1:25</span>
+          </div>
+
+          <!-- Play / Pause Buttons & Music Toggle -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <button id="playPauseBtn" class="px-4 py-1.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg active:scale-95 transition-transform">
+                <span id="playIcon">▶</span> <span id="playBtnText">Play Video</span>
+              </button>
+              <button id="restartBtn" class="p-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white" title="Restart">
+                ↺
+              </button>
+            </div>
+
+            <!-- Slow Classical Soundtrack Toggle -->
+            <button id="audioToggleBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 text-xs font-bold text-amber-300 transition-colors">
+              <span id="audioIcon">🎻</span>
+              <span id="audioText">Slow Classical: ON</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slow Classical Soundtrack Audio Controls Panel -->
+      <div class="w-[320px] sm:w-[360px] bg-slate-900/95 border border-slate-800 rounded-2xl p-4 space-y-3.5 shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+          <span class="text-xs font-bold text-white flex items-center gap-2">
+            <span class="text-amber-400">🎻</span> Background Slow Classical Music
+          </span>
+          <span class="text-[10px] bg-emerald-950 border border-emerald-800 text-emerald-300 px-2 py-0.5 rounded-full font-mono font-bold">
+            Voice Muted · Subtitles Only
+          </span>
+        </div>
+
+        <!-- Classical Piece Selector -->
+        <div>
+          <label class="text-[10px] font-mono uppercase text-slate-400 block mb-1">
+            Classical Piece / Mood
+          </label>
+          <select id="classicalSelect" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-amber-300 font-medium focus:outline-none focus:border-amber-500 cursor-pointer">
+            <option value="gymnopedie">🎹 Erik Satie — Gymnopédie (Gentle Slow Piano)</option>
+            <option value="debussy">🌙 Debussy — Clair de Lune (Calm Nocturne)</option>
+            <option value="adagio">🎻 Bach / Chopin — Adagio in D Minor (Warm Strings & Piano)</option>
+          </select>
+        </div>
+
+        <!-- Music Volume Slider -->
+        <div>
+          <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+            <span>Soundtrack Volume</span>
+            <span id="volumeVal" class="font-mono text-amber-400">Gentle (25%)</span>
+          </div>
+          <input id="volumeSlider" type="range" min="0" max="0.5" step="0.05" value="0.25" class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-amber-500">
+        </div>
+
+        <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-[11px] text-slate-300 flex items-center gap-2">
+          <span>✨</span>
+          <span>Zero talking voiceover. 100% focused on relaxing classical piano and high-contrast subtitles.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Scene Breakdown, Live Transcript & Complete SEO Package (7 Columns) -->
+    <div class="lg:col-span-7 space-y-6">
+      
+      <!-- Video Overview Card -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-base font-extrabold text-white">Halalin' UGC Video Guide (85 Seconds)</h3>
+            <p class="text-xs text-slate-400">Complete walkthrough explaining where to use, how to scan, and dietary verification.</p>
+          </div>
+          <span class="px-2.5 py-1 rounded-full bg-amber-950 text-amber-400 border border-amber-800 text-xs font-mono font-bold">
+            85.0s Total Duration
+          </span>
+        </div>
+
+        <!-- 7 Video Scene Cues Carousel with Subtitles Highlight -->
+        <div class="space-y-2.5 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar">
+          
+          <div id="cue-0" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs transition-all cursor-pointer hover:border-amber-500/40" onclick="seekTo(0)">
+            <div class="flex items-center justify-between font-bold mb-1">
+              <span class="text-amber-400 font-mono">[0:00 - 0:08] SCENE 1: THE PAIN POINT HOOK</span>
+              <span class="text-slate-500">8s</span>
+            </div>
+            <p class="text-yellow-300 font-bold mb-0.5">"Stop googling random chemical codes and squinting at tiny labels in the grocery aisle."</p>
+            <p class="text-slate-400 text-[11px]">It’s exhausting, half the answers online are outdated, and you’re still left guessing.</p>
+          </div>
+
+          <div id="cue-1" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs transition-all cursor-pointer hover:border-amber-500/40" onclick="seekTo(8)">
+            <div class="flex items-center justify-between font-bold mb-1">
+              <span class="text-amber-400 font-mono">[0:08 - 0:18] SCENE 2: INTRODUCING HALALIN'</span>
+              <span class="text-slate-500">10s</span>
+            </div>
+            <p class="text-yellow-300 font-bold mb-0.5">"Instead, open Halalin'. It’s an instant phone camera scanner with zero signup needed."</p>
+            <p class="text-slate-400 text-[11px]">Point your camera at any food label, and it verifies everything on one single page.</p>
+          </div>
+
+          <div id="cue-2" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs transition-all cursor-pointer hover:border-amber-500/40" onclick="seekTo(18)">
+            <div class="flex items-center justify-between font-bold mb-1">
+              <span class="text-amber-400 font-mono">[0:18 - 0:32] SCENE 3: LIVE SCAN 1 (PORK & GELATIN)</span>
+              <span class="text-slate-500">14s</span>
+            </div>
+            <p class="text-yellow-300 font-bold mb-0.5">"🔴 Big Red Alert! Caught 'gélatine de porc' in French instantly. No guessing needed!"</p>
+            <p class="text-slate-400 text-[11px]">No translations needed — it knows over fifty multilingual terms for pork and lard across Europe.</p>
+          </div>
+
+          <div id="cue-3" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs transition-all cursor-pointer hover:border-amber-500/40" onclick="seekTo(32)">
+            <div class="flex items-center justify-between font-bold mb-1">
+              <span class="text-amber-400 font-mono">[0:32 - 0:45] SCENE 4: AMBIGUOUS E471 & ADDITIVES</span>
+              <span class="text-slate-500">13s</span>
+            </div>
+            <p class="text-yellow-300 font-bold mb-0.5">"🟡 What about E471? Halalin' flags plant vs animal fats and drafts an inquiry in 1 tap!"</p>
+            <p class="text-slate-400 text-[11px]">Halalin' never lies. It flags ambiguous origins and drafts a translated manufacturer inquiry for you.</p>
+          </div>
+
+          <div id="cue-4" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs transition-all cursor-pointer hover:border-amber-500/40" onclick="seekTo(45)">
+            <div class="flex items-center justify-between font-bold mb-1">
+              <span class="text-amber-400 font-mono">[0:45 - 0:58] SCENE 5: GLUTEN, KOSHER & VEGAN</span>
+              <span class="text-slate-500">13s</span>
+            </div>
+            <p class="text-yellow-300 font-bold mb-0.5">"Gluten-Free, Kosher Pareve & Dairy, Vegan, and E-Codes on the exact same screen!"</p>
+            <p class="text-slate-400 text-[11px]">No need for three separate apps. All 5 dietary checks verified side-by-side.</p>
+          </div>
+
+          <div id="cue-5" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs transition-all cursor-pointer hover:border-amber-500/40" onclick="seekTo(58)">
+            <div class="flex items-center justify-between font-bold mb-1">
+              <span class="text-amber-400 font-mono">[0:58 - 1:12] SCENE 6: WHERE TO USE IT (TRAVEL & HOME)</span>
+              <span class="text-slate-500">14s</span>
+            </div>
+            <p class="text-yellow-300 font-bold mb-0.5">"Use it at home, traveling across Europe, duty-free snacks in Paris, or imported foods!"</p>
+            <p class="text-slate-400 text-[11px]">Switch to Travel Mode and it calibrates to local country standards and languages.</p>
+          </div>
+
+          <div id="cue-6" class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs transition-all cursor-pointer hover:border-amber-500/40" onclick="seekTo(72)">
+            <div class="flex items-center justify-between font-bold mb-1">
+              <span class="text-amber-400 font-mono">[1:12 - 1:25] SCENE 7: CALL TO ACTION & WRAP</span>
+              <span class="text-slate-500">13s</span>
+            </div>
+            <p class="text-yellow-300 font-bold mb-0.5">"Try Halalin' on your phone camera today! Free, lightning fast, and zero signup needed. 💚"</p>
+            <p class="text-slate-400 text-[11px]">Open on your phone camera now and decide with complete confidence.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- UGC Distribution & Full SEO Metadata Pack -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="text-base font-extrabold text-white">Multi-Platform SEO & Caption Package</h3>
+            <p class="text-xs text-slate-400">Pre-optimized for YouTube Shorts, TikTok, and Instagram Reels algorithms.</p>
+          </div>
+          <button id="copySeoBtn" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-colors">
+            <span>📋</span> Copy Full SEO Pack
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+            <span class="text-amber-400 font-mono font-bold block text-[11px]">TikTok & Instagram Reels Caption:</span>
+            <p class="text-slate-300 leading-relaxed text-[11px]">
+              Tired of guessing what E471 or saindoux actually means when shopping abroad? 🥖🛒 Point your phone camera with Halalin' and scan Halal, Gluten, Kosher & E-codes in 1 second. Zero signup required! Link in bio.
+            </p>
+            <span class="text-slate-500 font-mono block text-[10px]">
+              #halalfood #halalscanner #travelparis #muslimtravel #glutenfree #kosherfood #halalin #supermarkethacks
+            </span>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-2">
+            <span class="text-amber-400 font-mono font-bold block text-[11px]">High-Rank Search Keywords:</span>
+            <p class="font-mono text-slate-300 text-[11px] leading-relaxed">
+              halal scanner, halalin, is it halal, pork detector, check pork ingredients, e471 halal or haram, gluten free scanner, kosher food scanner app, muslim travel guide europe, french halal ingredients, saindoux meaning, halal phone camera scanner
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Script for Synchronized Video Playback & Slow Classical Music Synthesizer -->
+  <script>
+    const scenes = [
+      {
+        start: 0,
+        end: 8,
+        tag: "SCENE 1: THE HOOK",
+        title: "The Grocery Label Struggle",
+        desc: "Squinting at tiny foreign E-numbers in French & German supermarket aisles...",
+        icon: "🛒",
+        subMain: "Stop googling random chemical codes and squinting at tiny labels in the grocery aisle.",
+        subSec: "It’s exhausting, half the answers online are outdated, and you’re still left guessing.",
+        pack: { name: "Imported Butter Biscuits", country: "🇫🇷 Paris, France", ing: "Farine, sucre, graisse végétale, arômes, émulsifiant...", bar: "800050031" }
+      },
+      {
+        start: 8,
+        end: 18,
+        tag: "SCENE 2: THE REVELATION",
+        title: "Meet Halalin' Scanner",
+        desc: "Instant telephone camera scanning with zero signup required...",
+        icon: "📱",
+        subMain: "Instead, open Halalin'. It’s an instant phone camera scanner with zero signup needed.",
+        subSec: "Point your camera at any food packaging, and it verifies everything on one single page.",
+        pack: { name: "Halalin' Camera Ready", country: "📸 1080p Live Feed", ing: "Ready to scan any barcode or ingredient panel", bar: "SCAN ACTIVE" }
+      },
+      {
+        start: 18,
+        end: 32,
+        tag: "SCENE 3: PORK & GELATIN",
+        title: "🔴 Explicit Pork Detected",
+        desc: "Catches French 'gélatine de porc' in 0.5s across 50+ multilingual terms...",
+        icon: "🐷",
+        laser: true,
+        subMain: "🔴 Big Red Alert! Caught 'gélatine de porc' in French instantly. No guessing needed!",
+        subSec: "It recognizes over fifty multilingual terms for pork and lard across European food products.",
+        pack: { name: "Chamallows Guimauves", country: "🇫🇷 France", ing: "Gélatine de porc 🔴 PROHIBITED SWINE DETECTED", bar: "3103220009581" }
+      },
+      {
+        start: 32,
+        end: 45,
+        tag: "SCENE 4: THE E471 DILEMMA",
+        title: "🟡 Sourcing Verification Required",
+        desc: "Is E471 plant or animal fat? Auto-generates translated inquiry letter...",
+        icon: "🔬",
+        laser: true,
+        subMain: "🟡 What about ambiguous E471? Halalin' flags plant vs animal fats and drafts an inquiry in 1 tap!",
+        subSec: "Halalin' never lies. It flags ambiguous additives and writes a translated inquiry to the brand.",
+        pack: { name: "Nutella Bakery Biscuits", country: "🇮🇹 Italy / 🇫🇷 France", ing: "E471 (Mono- & diglycerides) 🟡 SOURCE UNKNOWN", bar: "8000500310427" }
+      },
+      {
+        start: 45,
+        end: 58,
+        tag: "SCENE 5: 5 DIETS IN 1 SCAN",
+        title: "Halal · Gluten · Kosher · Vegan",
+        desc: "All 5 essential dietary checks verified side-by-side on the same view...",
+        icon: "🥗",
+        pillars: true,
+        subMain: "Gluten-Free, Kosher Pareve and Dairy, Vegan, and E-Codes on the exact same screen!",
+        subSec: "No need for three separate apps. All 5 dietary pillars are checked simultaneously in one scan.",
+        pack: { name: "Lotus Biscoff Spread", country: "🇧🇪 Belgium / 🇬🇧 UK", ing: "100% Plant-Based · Gluten-Free · Kosher Pareve", bar: "5410126006957" }
+      },
+      {
+        start: 58,
+        end: 72,
+        tag: "SCENE 6: WHERE TO USE IT",
+        title: "Travel & Grocery Anywhere",
+        desc: "Paris, Berlin, London, New York duty-free, school lunches, and imported snack boxes...",
+        icon: "✈️",
+        pillars: true,
+        subMain: "Use it at home, traveling in Europe, duty-free snacks in Paris, or imported foods!",
+        subSec: "Switch to Travel Mode and it calibrates to local languages and regional food guidelines.",
+        pack: { name: "International Travel Mode", country: "🇫🇷 🇩🇪 🇬🇧 🇪🇸 🇮🇹 🇹🇷 🇺🇸", ing: "Calibrated to local food terminology & standards", bar: "GLOBAL" }
+      },
+      {
+        start: 72,
+        end: 85,
+        tag: "SCENE 7: CALL TO ACTION",
+        title: "Scan Once. Know Everything.",
+        desc: "Free · Zero signup required · Open on your mobile camera today...",
+        icon: "✨",
+        subMain: "Try Halalin' on your phone camera today! Free, lightning fast, and zero signup needed. 💚",
+        subSec: "Scan your food packaging and decide with complete confidence. Save this video and share it!",
+        pack: { name: "Halalin' Food Intelligence", country: "🌐 halalin.app", ing: "Decide with complete confidence on any food package", bar: "SCAN NOW" }
+      }
+    ];
+
+    let currentTime = 0;
+    let isPlaying = false;
+    let playbackInterval = null;
+    let musicEnabled = true;
+    let musicVolume = 0.25;
+    let classicalStyle = 'gymnopedie';
+
+    // Elements
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playIcon = document.getElementById('playIcon');
+    const playBtnText = document.getElementById('playBtnText');
+    const restartBtn = document.getElementById('restartBtn');
+    const scrubber = document.getElementById('videoScrubber');
+    const timeText = document.getElementById('timeText');
+    const currentTimeLabel = document.getElementById('currentTimeLabel');
+    const liveSubtitles = document.getElementById('liveSubtitles');
+    const liveSubtitlesSecondary = document.getElementById('liveSubtitlesSecondary');
+    const sceneTag = document.getElementById('sceneTag');
+    const sceneGraphic = document.getElementById('sceneGraphic');
+    const sceneTitle = document.getElementById('sceneTitle');
+    const sceneDesc = document.getElementById('sceneDesc');
+    const laserScanline = document.getElementById('laserScanline');
+    const dietaryPillars = document.getElementById('dietaryPillars');
+    const packName = document.getElementById('packName');
+    const packCountry = document.getElementById('packCountry');
+    const packIngredients = document.getElementById('packIngredients');
+    const packBarcode = document.getElementById('packBarcode');
+    const audioToggleBtn = document.getElementById('audioToggleBtn');
+    const audioIcon = document.getElementById('audioIcon');
+    const audioText = document.getElementById('audioText');
+    const classicalSelect = document.getElementById('classicalSelect');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeVal = document.getElementById('volumeVal');
+    const classicalWaves = document.getElementById('classicalWaves');
+
+    // Web Audio Synthesizer: Slow Classical Acoustic Piano & Strings
+    let audioCtx = null;
+    let masterGain = null;
+    let pianoLoopTimeout = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+          masterGain = audioCtx.createGain();
+          masterGain.gain.setValueAtTime(musicVolume, audioCtx.currentTime);
+          masterGain.connect(audioCtx.destination);
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Play a gentle, resonant acoustic piano tone
+    function playPianoNote(frequency, duration = 3.5, velocity = 0.2) {
+      const ctx = getAudioContext();
+      if (!ctx || !musicEnabled) return;
+
+      try {
+        const now = ctx.currentTime;
+        
+        // Fundamental Oscillator (Warm Sine/Triangle blend)
+        const osc1 = ctx.createOscillator();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(frequency, now);
+
+        // Harmonic Octave (Soft overtone)
+        const osc2 = ctx.createOscillator();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(frequency * 2, now);
+
+        // Acoustic Piano Envelope Gain Node
+        const noteGain = ctx.createGain();
+        noteGain.gain.setValueAtTime(0.0001, now);
+        // Piano hammer strike (soft, graceful attack 0.03s)
+        noteGain.gain.linearRampToValueAtTime(velocity * (musicVolume / 0.25), now + 0.03);
+        // Piano natural acoustic decay into lingering resonance
+        noteGain.gain.exponentialRampToValueAtTime(velocity * 0.45 * (musicVolume / 0.25), now + 0.5);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc1.connect(noteGain);
+        osc2.connect(noteGain);
+        noteGain.connect(masterGain);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + duration);
+        osc2.stop(now + duration);
+      } catch (e) {}
+    }
+
+    // Play a soft string pad in the background to accompany the piano
+    function playStringPad(freq, duration = 4.5, velocity = 0.08) {
+      const ctx = getAudioContext();
+      if (!ctx || !musicEnabled) return;
+
+      try {
+        const now = ctx.currentTime;
+        const padOsc = ctx.createOscillator();
+        padOsc.type = 'sine';
+        padOsc.frequency.setValueAtTime(freq / 2, now); // Low cello / bass octave
+
+        const padGain = ctx.createGain();
+        padGain.gain.setValueAtTime(0.0001, now);
+        padGain.gain.linearRampToValueAtTime(velocity * (musicVolume / 0.25), now + 0.8);
+        padGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        padOsc.connect(padGain);
+        padGain.connect(masterGain);
+
+        padOsc.start(now);
+        padOsc.stop(now + duration);
+      } catch (e) {}
+    }
+
+    // Classical pieces score definitions (Slow tempos, 48-52 BPM)
+    const classicalScores = {
+      gymnopedie: [
+        // Satie Gymnopédie No. 1 inspired gentle slow progression
+        { bass: 196.00, chord: [293.66, 392.00, 493.88], dur: 3.8 }, // Gmaj7 (G, D, G, B)
+        { bass: 146.83, chord: [293.66, 369.99, 440.00], dur: 3.8 }, // Dmaj7 (D, D, F#, A)
+        { bass: 164.81, chord: [246.94, 329.63, 392.00], dur: 3.8 }, // Em7 (E, B, E, G)
+        { bass: 220.00, chord: [261.63, 329.63, 440.00], dur: 3.8 }, // Am7 (A, C, E, A)
+        { bass: 174.61, chord: [261.63, 349.23, 440.00], dur: 3.8 }, // Fmaj7 (F, C, F, A)
+        { bass: 196.00, chord: [293.66, 392.00, 440.00], dur: 3.8 }  // Gsus4 / G
+      ],
+      debussy: [
+        // Clair de Lune calm nocturne inspired progression
+        { bass: 174.61, chord: [261.63, 349.23, 440.00, 523.25], dur: 4.2 }, // Fmaj9
+        { bass: 146.83, chord: [220.00, 293.66, 349.23, 440.00], dur: 4.2 }, // Dm9
+        { bass: 220.00, chord: [261.63, 329.63, 392.00, 440.00], dur: 4.2 }, // Am7
+        { bass: 130.81, chord: [196.00, 261.63, 329.63, 392.00], dur: 4.2 }  // Cmaj7
+      ],
+      adagio: [
+        // Adagio in D Minor slow classical strings & piano
+        { bass: 146.83, chord: [220.00, 293.66, 349.23], dur: 4.0 }, // D minor
+        { bass: 174.61, chord: [261.63, 349.23, 440.00], dur: 4.0 }, // F major
+        { bass: 220.00, chord: [277.18, 329.63, 440.00], dur: 4.0 }, // A major
+        { bass: 146.83, chord: [220.00, 293.66, 349.23], dur: 4.0 }  // D minor
+      ]
+    };
+
+    let currentChordIndex = 0;
+
+    function playNextClassicalMeasure() {
+      if (!isPlaying || !musicEnabled) return;
+
+      const score = classicalScores[classicalStyle] || classicalScores.gymnopedie;
+      const measure = score[currentChordIndex % score.length];
+      currentChordIndex++;
+
+      // Play soft bass note
+      playPianoNote(measure.bass, measure.dur, 0.22);
+      playStringPad(measure.bass, measure.dur + 0.5, 0.08);
+
+      // Play gentle arpeggiated piano notes with slight delays for natural human touch
+      measure.chord.forEach((freq, idx) => {
+        setTimeout(() => {
+          if (isPlaying && musicEnabled) {
+            playPianoNote(freq, measure.dur - (idx * 0.15), 0.16);
+          }
+        }, 120 + idx * 280);
+      });
+
+      pianoLoopTimeout = setTimeout(playNextClassicalMeasure, measure.dur * 1000 - 400);
+    }
+
+    function startSlowClassicalMusic() {
+      if (!musicEnabled) return;
+      stopSlowClassicalMusic();
+      currentChordIndex = 0;
+      getAudioContext();
+      playNextClassicalMeasure();
+      setWavesActive(true);
+    }
+
+    function stopSlowClassicalMusic() {
+      if (pianoLoopTimeout) {
+        clearTimeout(pianoLoopTimeout);
+        pianoLoopTimeout = null;
+      }
+      setWavesActive(false);
+    }
+
+    function setWavesActive(active) {
+      if (!classicalWaves) return;
+      classicalWaves.style.opacity = active ? "1" : "0.2";
+    }
+
+    // Audio Controls Listeners
+    classicalSelect.addEventListener('change', () => {
+      classicalStyle = classicalSelect.value;
+      if (isPlaying && musicEnabled) {
+        startSlowClassicalMusic();
+      }
+    });
+
+    volumeSlider.addEventListener('input', (e) => {
+      musicVolume = parseFloat(e.target.value);
+      if (masterGain && audioCtx) {
+        masterGain.gain.setValueAtTime(musicVolume, audioCtx.currentTime);
+      }
+      if (musicVolume === 0) {
+        volumeVal.textContent = "Muted";
+      } else if (musicVolume < 0.2) {
+        volumeVal.textContent = "Soft (15%)";
+      } else if (musicVolume < 0.35) {
+        volumeVal.textContent = "Gentle (25%)";
+      } else {
+        volumeVal.textContent = "Full (50%)";
+      }
+    });
+
+    audioToggleBtn.addEventListener('click', () => {
+      musicEnabled = !musicEnabled;
+      audioIcon.textContent = musicEnabled ? "🎻" : "🔇";
+      audioText.textContent = musicEnabled ? "Slow Classical: ON" : "Slow Classical: OFF";
+      if (!musicEnabled) {
+        stopSlowClassicalMusic();
+      } else if (isPlaying) {
+        startSlowClassicalMusic();
+      }
+    });
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function updateVisuals(sec) {
+      const sceneIndex = scenes.findIndex(s => sec >= s.start && sec < s.end);
+      const scene = scenes[sceneIndex !== -1 ? sceneIndex : scenes.length - 1];
+
+      // Update time displays
+      const formatted = formatTime(sec);
+      timeText.textContent = formatted;
+      currentTimeLabel.textContent = formatted;
+      scrubber.value = sec;
+
+      // Update on-screen contents
+      sceneTag.textContent = scene.tag;
+      sceneTitle.textContent = scene.title;
+      sceneDesc.textContent = scene.desc;
+      sceneGraphic.textContent = scene.icon;
+      
+      // Update High-Impact Subtitles (No Talking Voice)
+      liveSubtitles.textContent = `"${scene.subMain}"`;
+      liveSubtitlesSecondary.textContent = scene.subSec;
+
+      // Update package mockup
+      packName.textContent = scene.pack.name;
+      packCountry.textContent = scene.pack.country;
+      packIngredients.textContent = scene.pack.ing;
+      packBarcode.textContent = scene.pack.bar;
+
+      // Laser & pillars toggles
+      if (scene.laser) laserScanline.classList.remove('hidden');
+      else laserScanline.classList.add('hidden');
+
+      if (scene.pillars) dietaryPillars.classList.remove('hidden');
+      else dietaryPillars.classList.add('hidden');
+
+      // Update active cue highlight in right column
+      scenes.forEach((_, idx) => {
+        const el = document.getElementById(`cue-${idx}`);
+        if (el) {
+          if (idx === sceneIndex) {
+            el.className = "p-3.5 rounded-2xl bg-amber-950/80 border-2 border-amber-500 shadow-md text-xs transition-all text-white";
+          } else {
+            el.className = "p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-xs transition-all text-slate-400 opacity-60";
+          }
+        }
+      });
+    }
+
+    function play() {
+      isPlaying = true;
+      playIcon.textContent = "⏸";
+      playBtnText.textContent = "Pause Video";
+      getAudioContext();
+      startSlowClassicalMusic();
+
+      playbackInterval = setInterval(() => {
+        currentTime += 0.25;
+        if (currentTime >= 85) {
+          currentTime = 85;
+          pause();
+          playIcon.textContent = "↺";
+          playBtnText.textContent = "Replay Video";
+        }
+        updateVisuals(currentTime);
+      }, 250);
+    }
+
+    function pause() {
+      isPlaying = false;
+      playIcon.textContent = "▶";
+      playBtnText.textContent = "Play Video";
+      clearInterval(playbackInterval);
+      stopSlowClassicalMusic();
+    }
+
+    function seekTo(sec) {
+      currentTime = sec;
+      updateVisuals(sec);
+    }
+
+    playPauseBtn.addEventListener('click', () => {
+      if (isPlaying) pause();
+      else play();
+    });
+
+    restartBtn.addEventListener('click', () => {
+      pause();
+      seekTo(0);
+    });
+
+    scrubber.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      seekTo(val);
+    });
+
+    document.getElementById('downloadSrtBtn').addEventListener('click', () => {
+      const srtContent = `1
+00:00:00,000 --> 00:00:04,000
+Stop googling random chemical codes and squinting at tiny labels in the grocery aisle.
+
+2
+00:00:04,000 --> 00:00:08,000
+It’s exhausting, half the answers online are outdated, and you’re still left guessing.
+
+3
+00:00:08,000 --> 00:00:13,000
+Instead, open Halalin'. It’s an instant phone camera scanner with zero signup needed.
+
+4
+00:00:13,000 --> 00:00:18,000
+Point your camera at any food packaging, and it verifies everything on one single page.
+
+5
+00:00:18,000 --> 00:00:25,000
+🔴 Big Red Alert! Caught 'gélatine de porc' in French instantly. No guessing needed!
+
+6
+00:00:25,000 --> 00:00:32,000
+It recognizes over fifty multilingual terms for pork and lard across European food products.
+
+7
+00:00:32,000 --> 00:00:38,500
+🟡 What about ambiguous E471? Halalin' flags plant vs animal fats and drafts an inquiry in 1 tap!
+
+8
+00:00:38,500 --> 00:00:45,000
+Halalin' never lies. It flags ambiguous additives and writes a translated inquiry to the brand.
+
+9
+00:00:45,000 --> 00:00:51,500
+Gluten-Free, Kosher Pareve and Dairy, Vegan, and E-Codes on the exact same screen!
+
+10
+00:00:51,500 --> 00:00:58,000
+No need for three separate apps. All 5 dietary pillars are checked simultaneously in one scan.
+
+11
+00:00:58,000 --> 00:01:05,000
+Use it at home, traveling in Europe, duty-free snacks in Paris, or imported foods!
+
+12
+00:01:05,000 --> 00:01:12,000
+Switch to Travel Mode and it calibrates to local languages and regional food guidelines.
+
+13
+00:01:12,000 --> 00:01:18,500
+Try Halalin' on your phone camera today! Free, lightning fast, and zero signup needed. 💚
+
+14
+00:01:18,500 --> 00:01:25,000
+Scan your food packaging and decide with complete confidence. Save this video and share it!`;
+
+      const blob = new Blob([srtContent], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'halalin_ugc_subtitles.srt';
+      a.click();
+    });
+
+    document.getElementById('copySeoBtn').addEventListener('click', () => {
+      const seoText = `Title: How to Check if Food is Halal, Gluten-Free & Kosher on Phone Camera | Halalin'
+
+Description:
+Ever wondered if an imported snack or E-number is plant-based or derived from pork? Stop googling in confusing grocery aisles! Halalin' turns your phone camera into an instant food intelligence scanner. 
+
+In this 85-second UGC walkthrough:
+0:00 The supermarket label dilemma
+0:08 Meet Halalin' instant phone scanner
+0:18 Detecting hidden French pork & gelatin
+0:32 The E471 ambiguous additive check & 1-tap email
+0:45 5 Diets in 1: Halal, Gluten-Free, Kosher & Vegan
+0:58 Where to use it: Supermarkets, airport duty-free & travel
+1:12 Free instant access - scan your first item now!
+
+Try it on your browser: https://halalin.app
+Tags: #halal #halalfood #e471 #kosher #glutenfree #porkdetector #travelhacks #halalin`;
+
+      navigator.clipboard.writeText(seoText).then(() => {
+        const btn = document.getElementById('copySeoBtn');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ Copied to Clipboard!';
+        btn.classList.add('bg-amber-950', 'text-amber-300', 'border-amber-600');
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove('bg-amber-950', 'text-amber-300', 'border-amber-600');
+        }, 2500);
+      });
+    });
+
+    // Initialize first scene
+    updateVisuals(0);
+  </script>
+</body>
+</html>

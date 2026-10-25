@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Home, Scan, Search, Bookmark, SlidersHorizontal, ShieldAlert } from 'lucide-react';
+import { Home, Scan, Search, Bookmark, ShieldAlert } from 'lucide-react';
 import { SupportedLanguage, TRANSLATIONS } from '../i18n/translations';
 
 interface BottomNavProps {
@@ -27,15 +27,15 @@ export const BottomNav: React.FC<BottomNavProps> = ({
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800/80 px-2 py-1.5"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-lg border-t border-[#EBE3D7] px-2 py-1.5 shadow-lg"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       <div className="grid grid-cols-5 items-center max-w-md mx-auto">
         {/* Tab 1: Home */}
         <button
           onClick={() => onNavigate('home')}
-          className={`min-h-[44px] flex flex-col items-center justify-center transition-colors ${
-            currentView === 'home' ? 'text-emerald-400 font-semibold' : 'text-slate-400 hover:text-slate-200'
+          className={`min-h-[44px] flex flex-col items-center justify-center transition-colors cursor-pointer ${
+            currentView === 'home' ? 'text-[#2B1810] font-bold' : 'text-[#8A7061] hover:text-[#2B1810]'
           }`}
         >
           <Home className="w-5 h-5" />
@@ -45,8 +45,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({
         {/* Tab 2: Search */}
         <button
           onClick={() => onNavigate('search')}
-          className={`min-h-[44px] flex flex-col items-center justify-center transition-colors ${
-            currentView === 'search' ? 'text-emerald-400 font-semibold' : 'text-slate-400 hover:text-slate-200'
+          className={`min-h-[44px] flex flex-col items-center justify-center transition-colors cursor-pointer ${
+            currentView === 'search' ? 'text-[#2B1810] font-bold' : 'text-[#8A7061] hover:text-[#2B1810]'
           }`}
         >
           <Search className="w-5 h-5" />
@@ -57,18 +57,18 @@ export const BottomNav: React.FC<BottomNavProps> = ({
         <div className="flex justify-center items-center -mt-4">
           <button
             onClick={onOpenScanModal}
-            className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/25 active:scale-95 transition-transform"
+            className="w-13 h-13 rounded-2xl bg-[#2B1810] text-[#E8D8B8] flex items-center justify-center shadow-lg shadow-[#2B1810]/25 active:scale-95 transition-transform cursor-pointer"
             aria-label={t.scanProduct}
           >
-            <Scan className="w-6 h-6 stroke-[2.2]" />
+            <Scan className="w-6 h-6 stroke-[2.2] text-[#C5A059]" />
           </button>
         </div>
 
         {/* Tab 4: Additives / E-Numbers */}
         <button
           onClick={() => onNavigate('additives')}
-          className={`min-h-[44px] flex flex-col items-center justify-center transition-colors ${
-            currentView === 'additives' ? 'text-emerald-400 font-semibold' : 'text-slate-400 hover:text-slate-200'
+          className={`min-h-[44px] flex flex-col items-center justify-center transition-colors cursor-pointer ${
+            currentView === 'additives' ? 'text-[#2B1810] font-bold' : 'text-[#8A7061] hover:text-[#2B1810]'
           }`}
         >
           <ShieldAlert className="w-5 h-5" />
@@ -78,14 +78,14 @@ export const BottomNav: React.FC<BottomNavProps> = ({
         {/* Tab 5: Saved */}
         <button
           onClick={() => onNavigate('saved')}
-          className={`min-h-[44px] flex flex-col items-center justify-center relative transition-colors ${
-            currentView === 'saved' ? 'text-emerald-400 font-semibold' : 'text-slate-400 hover:text-slate-200'
+          className={`min-h-[44px] flex flex-col items-center justify-center relative transition-colors cursor-pointer ${
+            currentView === 'saved' ? 'text-[#2B1810] font-bold' : 'text-[#8A7061] hover:text-[#2B1810]'
           }`}
         >
           <Bookmark className="w-5 h-5" />
           <span className="text-[10px] mt-1 tracking-tight">{t.savedNav}</span>
           {savedCount > 0 && (
-            <span className="absolute top-1 right-3 w-4 h-4 rounded-full bg-emerald-500 text-slate-950 text-[9px] font-bold flex items-center justify-center">
+            <span className="absolute top-1 right-3 w-4 h-4 rounded-full bg-[#C5A059] text-white text-[9px] font-bold flex items-center justify-center">
               {savedCount}
             </span>
           )}

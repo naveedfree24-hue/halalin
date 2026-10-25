@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halalin' — UGC Video Production Studio & Teleprompter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #030712; color: #f3f4f6; }
+    .scan-laser {
+      animation: scanAnim 2.2s ease-in-out infinite alternate;
+    }
+    @keyframes scanAnim {
+      0% { top: 8%; opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { top: 90%; opacity: 0.4; }
+    }
+  </style>
+</head>
+<body class="p-4 md:p-8 min-h-screen">
+  <div class="max-w-6xl mx-auto space-y-8">
+    
+    <!-- Header -->
+    <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-800 pb-6">
+      <div>
+        <div className="flex items-center gap-2">
+          <span class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-emerald-950 text-emerald-400 border border-emerald-800 uppercase tracking-wider">
+            Standalone UGC Production Suite
+          </span>
+          <span class="text-xs text-gray-500 font-mono ml-2">Duration: 85 Seconds · 9:16 Vertical</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">
+          Halalin' UGC Video Creator Studio
+        </h1>
+        <p class="text-xs text-gray-400 mt-0.5">
+          Dedicated teleprompter, live subtitle simulator, and SEO marketing package.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="copyScriptBtn" class="px-4 py-2 rounded-xl bg-gray-900 border border-gray-700 hover:border-gray-500 text-xs font-semibold text-gray-200 transition-colors">
+          📋 Copy Voiceover
+        </button>
+        <button id="downloadSrtBtn" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white shadow-lg transition-colors">
+          💾 Download .SRT Subtitles
+        </button>
+      </div>
+    </header>
+
+    <!-- Studio Grid Split -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left Column: Interactive 9:16 Phone Preview Simulator (5 Columns) -->
+      <div class="lg:col-span-5 flex flex-col items-center">
+        <div class="relative w-[320px] sm:w-[350px] h-[640px] bg-black rounded-[44px] border-[6px] border-gray-800 overflow-hidden shadow-2xl flex flex-col justify-between p-4">
+          
+          <!-- Mock Dynamic Island / Camera Notch -->
+          <div class="w-28 h-5 bg-gray-900 rounded-full mx-auto z-30"></div>
+
+          <!-- Video Scene Visual Backdrop -->
+          <div id="videoSceneVisual" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-slate-900 to-black flex flex-col items-center justify-center p-6 text-center transition-all duration-500">
+            <!-- Simulated Scanning Beam -->
+            <div id="laserBeam" class="hidden absolute inset-x-4 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_#34d399] scan-laser"></div>
+            
+            <div id="sceneIcon" class="text-5xl mb-4 animate-bounce">🛒</div>
+            <h3 id="sceneHeading" class="text-lg font-black text-white px-2">The Grocery Label Struggle</h3>
+            <p id="sceneSubtext" class="text-xs text-gray-400 mt-2 max-w-xs">Squinting at foreign European ingredients in Paris...</p>
+
+            <!-- Dynamic UI Badge Overlay Mock -->
+            <div id="dietaryBadges" class="hidden mt-6 flex flex-wrap gap-1.5 justify-center">
+              <span class="px-2 py-1 rounded-md bg-emerald-950 border border-emerald-600 text-[10px] font-bold text-emerald-300">🟢 Halal</span>
+              <span class="px-2 py-1 rounded-md bg-rose-950 border border-rose-600 text-[10px] font-bold text-rose-300">🐷 Pork Checked</span>
+              <span class="px-2 py-1 rounded-md bg-amber-950 border border-amber-600 text-[10px] font-bold text-amber-300">🌾 Gluten Checked</span>
+              <span class="px-2 py-1 rounded-md bg-blue-950 border border-blue-600 text-[10px] font-bold text-blue-300">✡️ Kosher Pareve</span>
+            </div>
+          </div>
+
+          <!-- Live Timed Subtitles (Karaoke Highlight Style) -->
+          <div class="relative z-20 mt-auto bg-black/80 backdrop-blur-md p-4 rounded-2xl border border-gray-800/80 mb-2">
+            <div class="text-[10px] text-emerald-400 font-mono font-bold tracking-wider uppercase mb-1">
+              Live Subtitles · 0:<span id="secDisplay">00</span> / 1:25
+            </div>
+            <p id="subtitleText" class="text-sm font-extrabold text-yellow-300 leading-snug drop-shadow-md">
+              "Stop googling random chemical codes and squinting at tiny labels in the grocery aisle..."
+            </p>
+          </div>
+
+          <!-- Phone Bottom Navigation Bar Mock -->
+          <div class="w-32 h-1 bg-gray-700 rounded-full mx-auto z-20"></div>
+        </div>
+
+        <!-- Player Controls -->
+        <div class="mt-4 flex items-center gap-3">
+          <button id="playBtn" class="px-5 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-transform active:scale-95">
+            ▶ Play UGC Rehearsal
+          </button>
+          <button id="resetBtn" class="px-4 py-2.5 rounded-full bg-gray-900 border border-gray-700 hover:border-gray-500 text-xs font-semibold text-gray-300">
+            ↺ Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column: Auto-Scrolling Teleprompter & SEO Package (7 Columns) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Live Teleprompter Card -->
+        <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+            <div>
+              <h2 class="text-base font-extrabold text-white">Creator Live Teleprompter (85s)</h2>
+              <p class="text-xs text-gray-400">Auto-highlights sentence as video timer progresses.</p>
+            </div>
+            <span id="sceneBadge" class="text-[11px] font-mono px-2.5 py-1 rounded bg-gray-800 text-emerald-400 border border-gray-700">
+              Scene 1 of 7
+            </span>
+          </div>
+
+          <!-- Script Chapters -->
+          <div id="teleprompterContainer" class="space-y-4 max-h-[380px] overflow-y-auto pr-2 font-medium text-xs leading-relaxed text-gray-300">
+            <div id="tp-1" class="p-3 rounded-2xl bg-gray-950 border border-gray-800 transition-all">
+              <span class="text-[10px] font-mono text-emerald-400 block mb-1">[0:00 - 0:08] SCENE 1: THE HOOK</span>
+              "Stop googling random chemical codes and squinting at tiny foreign labels in the grocery aisle. It’s exhausting, half the answers online are outdated, and you’re still left guessing."
+            </div>
+
+            <div id="tp-2" class="p-3 rounded-2xl bg-gray-950 border border-gray-800 transition-all">
+              <span class="text-[10px] font-mono text-emerald-400 block mb-1">[0:08 - 0:18] SCENE 2: THE REVELATION</span>
+              "Instead, open Halalin'. It’s an instant telephone camera scanner with zero signup required. You point your camera at any food packaging, and it verifies everything on one single page."
+            </div>
+
+            <div id="tp-3" class="p-3 rounded-2xl bg-gray-950 border border-gray-800 transition-all">
+              <span class="text-[10px] font-mono text-emerald-400 block mb-1">[0:18 - 0:32] SCENE 3: LIVE SCAN 1 (PORK & GELATIN)</span>
+              "Watch this. I point my camera at these French marshmallows. The scanner reads the text, and boom: Big Red Alert. It caught 'gélatine de porc' in French instantly. No guessing, no translations needed — it knows over fifty multilingual terms for pork and lard across Europe."
+            </div>
+
+            <div id="tp-4" class="p-3 rounded-2xl bg-gray-950 border border-gray-800 transition-all">
+              <span class="text-[10px] font-mono text-emerald-400 block mb-1">[0:32 - 0:45] SCENE 4: THE E471 DILEMMA</span>
+              "Now check this out. What about ambiguous additives like E471? Halalin' never lies and pretends absence of pork means it's automatically halal. It flags that E471 can be plant or animal fat, and even writes a translated email to the manufacturer for you with one tap."
+            </div>
+
+            <div id="tp-5" class="p-3 rounded-2xl bg-gray-950 border border-gray-800 transition-all">
+              <span class="text-[10px] font-mono text-emerald-400 block mb-1">[0:45 - 0:58] SCENE 5: GLUTEN, KOSHER & VEGAN</span>
+              "And here’s the game-changer: you don’t need three different apps. In the exact same view, you see Gluten-Free status, Kosher Pareve and Dairy rules, Vegan compliance, and every single E-code decoded."
+            </div>
+
+            <div id="tp-6" class="p-3 rounded-2xl bg-gray-950 border border-gray-800 transition-all">
+              <span class="text-[10px] font-mono text-emerald-400 block mb-1">[0:58 - 1:12] SCENE 6: WHERE & HOW TO USE IT</span>
+              "Where can you use it? Everywhere! Whether you're doing weekly groceries at home, traveling across Europe, checking airport duty-free snacks in Paris, or unpacking imported snacks. Switch to Travel Mode and it calibrates to local languages!"
+            </div>
+
+            <div id="tp-7" class="p-3 rounded-2xl bg-gray-950 border border-gray-800 transition-all">
+              <span class="text-[10px] font-mono text-emerald-400 block mb-1">[1:12 - 1:25] SCENE 7: CALL TO ACTION</span>
+              "It’s free, it’s lightning fast, and you don’t even have to create an account. Open Halalin' on your phone camera today, scan your packaging, and decide with complete confidence. Save this video and share it!"
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Multi-Platform SEO Metadata Block -->
+        <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+            <h3 class="text-sm font-extrabold text-white">Full SEO Metadata Suite</h3>
+            <button id="copySeoBtn" class="text-xs text-emerald-400 hover:underline font-semibold">
+              Copy Full SEO
+            </button>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div>
+              <span class="text-gray-400 font-semibold block mb-0.5">YouTube & Video Title (68 chars · High CTR):</span>
+              <p class="font-mono text-emerald-300 bg-gray-950 p-2.5 rounded-xl border border-gray-800">
+                How to Check if Food is Halal, Gluten-Free & Kosher on Phone Camera | Halalin'
+              </p>
+            </div>
+
+            <div>
+              <span class="text-gray-400 font-semibold block mb-0.5">High-Ranking Video Tags:</span>
+              <p class="font-mono text-gray-300 bg-gray-950 p-2.5 rounded-xl border border-gray-800 text-[11px]">
+                halal scanner, halalin, is it halal, pork detector, check pork ingredients, e471 halal or haram, gluten free scanner, kosher food scanner app, muslim travel guide europe
+              </p>
+            </div>
+
+            <div>
+              <span class="text-gray-400 font-semibold block mb-0.5">TikTok & Instagram Viral Hashtags:</span>
+              <p class="font-mono text-emerald-400 bg-gray-950 p-2.5 rounded-xl border border-gray-800 text-[11px]">
+                #HalalFood #MuslimTikTok #HalalTravel #HalalCheck #GlutenFreeLife #KosherFood #HalalSnacks #Halalin
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Subtitles array with timing
+    const cues = [
+      { start: 0, end: 3.8, text: "Stop googling random chemical codes and squinting at tiny foreign labels in the grocery aisle.", scene: 1, icon: "🛒", head: "The Grocery Label Struggle", sub: "Confused in Paris supermarkets...", bg: "from-amber-950/40 via-gray-950 to-black" },
+      { start: 3.8, end: 8.0, text: "It’s exhausting, half the answers online are outdated, and you’re still left guessing.", scene: 1, icon: "🔍", head: "Confusing E-Numbers", sub: "Is E471 plant or animal fat?", bg: "from-amber-950/40 via-gray-950 to-black" },
+      { start: 8.0, end: 13.5, text: "Instead, open Halalin'. It’s an instant telephone camera scanner with zero signup required.", scene: 2, icon: "📱", head: "Meet Halalin'", sub: "Instant phone camera scanner active immediately", bg: "from-emerald-950/40 via-gray-950 to-black" },
+      { start: 13.5, end: 18.0, text: "You point your camera at any food packaging, and it verifies everything on one single page.", scene: 2, icon: "✨", head: "All-In-One Page", sub: "Zero tabs, zero modals, instant verdict", bg: "from-emerald-950/40 via-gray-950 to-black" },
+      { start: 18.0, end: 25.0, text: "Watch this. I point my camera at these French marshmallows. The scanner reads the text, and boom: Big Red Alert.", scene: 3, icon: "🔴", head: "Pork Detected Alert!", sub: "Gélatine de porc caught in 0.5s", bg: "from-rose-950/60 via-gray-950 to-black", laser: true },
+      { start: 25.0, end: 32.0, text: "It caught 'gélatine de porc' in French instantly. No guessing, no translations needed — it knows over fifty multilingual terms for pork and lard across Europe.", scene: 3, icon: "🐷", head: "50+ Pork Terminology", sub: "French saindoux, German Schweinefett, Spanish grasa", bg: "from-rose-950/60 via-gray-950 to-black", laser: true },
+      { start: 32.0, end: 38.5, text: "Now check this out. What about ambiguous additives like E471? Halalin' never lies and pretends absence of pork means it's automatically halal.", scene: 4, icon: "🟡", head: "The E471 Dilemma", sub: "Source verification required", bg: "from-amber-950/50 via-gray-950 to-black" },
+      { start: 38.5, end: 45.0, text: "It flags that E471 can be plant or animal fat, and even writes a translated email to the manufacturer for you with one tap.", scene: 4, icon: "✉️", head: "Ask Manufacturer Tool", sub: "Auto-translated inquiry generated in French & German", bg: "from-amber-950/50 via-gray-950 to-black" },
+      { start: 45.0, end: 51.5, text: "And here’s the game-changer: you don’t need three different apps. In the exact same view, you see Gluten-Free status,", scene: 5, icon: "🌾", head: "Gluten & Kosher Check", sub: "Wheat, barley, rye & oat cross-check", bg: "from-blue-950/50 via-gray-950 to-black", badges: true },
+      { start: 51.5, end: 58.0, text: "Kosher Pareve and Dairy rules, Vegan compliance, and every single E-code decoded.", scene: 5, icon: "✡️", head: "5 Diets In 1 Glance", sub: "Halal · Gluten · Kosher · Vegan · Additives", bg: "from-blue-950/50 via-gray-950 to-black", badges: true },
+      { start: 58.0, end: 65.0, text: "Where can you use it? Everywhere! Whether you're doing weekly groceries at home, traveling across Europe,", scene: 6, icon: "✈️", head: "Travel Mode Ready", sub: "Paris, Berlin, London, New York & Dubai", bg: "from-emerald-950/50 via-gray-950 to-black" },
+      { start: 65.0, end: 72.0, text: "checking airport duty-free snacks in Paris, or unpacking imported snacks. Switch to Travel Mode and it calibrates to local languages!", scene: 6, icon: "🌍", head: "Local Language Auto-Adapt", sub: "French, German, Spanish, Turkish, Arabic RTL", bg: "from-emerald-950/50 via-gray-950 to-black" },
+      { start: 72.0, end: 78.5, text: "It’s free, it’s lightning fast, and you don’t even have to create an account.", scene: 7, icon: "🚀", head: "100% Free & Fast", sub: "Decide with complete confidence", bg: "from-emerald-950/60 via-gray-950 to-black" },
+      { start: 78.5, end: 85.0, text: "Open Halalin' on your phone camera today, scan your packaging, and decide with complete confidence. Save this video and share it!", scene: 7, icon: "💚", head: "Try Halalin' Today", sub: "Scan once. Know everything.", bg: "from-emerald-950/60 via-gray-950 to-black" }
+    ];
+
+    let timer = null;
+    let currentTime = 0;
+    let isPlaying = false;
+
+    const playBtn = document.getElementById('playBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const secDisplay = document.getElementById('secDisplay');
+    const subtitleText = document.getElementById('subtitleText');
+    const sceneIcon = document.getElementById('sceneIcon');
+    const sceneHeading = document.getElementById('sceneHeading');
+    const sceneSubtext = document.getElementById('sceneSubtext');
+    const sceneBadge = document.getElementById('sceneBadge');
+    const laserBeam = document.getElementById('laserBeam');
+    const dietaryBadges = document.getElementById('dietaryBadges');
+
+    function updateFrame(sec) {
+      const activeCue = cues.find(c => sec >= c.start && sec <= c.end) || cues[cues.length - 1];
+      
+      const formatted = Math.floor(sec).toString().padStart(2, '0');
+      secDisplay.textContent = formatted;
+      subtitleText.textContent = `"${activeCue.text}"`;
+      sceneIcon.textContent = activeCue.icon;
+      sceneHeading.textContent = activeCue.head;
+      sceneSubtext.textContent = activeCue.sub;
+      sceneBadge.textContent = `Scene ${activeCue.scene} of 7`;
+
+      if (activeCue.laser) {
+        laserBeam.classList.remove('hidden');
+      } else {
+        laserBeam.classList.add('hidden');
+      }
+
+      if (activeCue.badges) {
+        dietaryBadges.classList.remove('hidden');
+      } else {
+        dietaryBadges.classList.add('hidden');
+      }
+
+      // Highlight active teleprompter block
+      for (let i = 1; i <= 7; i++) {
+        const el = document.getElementById(`tp-${i}`);
+        if (el) {
+          if (i === activeCue.scene) {
+            el.className = "p-3 rounded-2xl bg-emerald-950 border border-emerald-500 shadow-md text-white transition-all";
+            el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } else {
+            el.className = "p-3 rounded-2xl bg-gray-950 border border-gray-800 text-gray-400 transition-all opacity-60";
+          }
+        }
+      }
+    }
+
+    function togglePlay() {
+      if (isPlaying) {
+        clearInterval(timer);
+        isPlaying = false;
+        playBtn.textContent = '▶ Resume Rehearsal';
+      } else {
+        isPlaying = true;
+        playBtn.textContent = '⏸ Pause Rehearsal';
+        timer = setInterval(() => {
+          currentTime += 0.2;
+          if (currentTime >= 85) {
+            currentTime = 85;
+            clearInterval(timer);
+            isPlaying = false;
+            playBtn.textContent = '↺ Replay';
+          }
+          updateFrame(currentTime);
+        }, 200);
+      }
+    }
+
+    playBtn.addEventListener('click', togglePlay);
+    resetBtn.addEventListener('click', () => {
+      clearInterval(timer);
+      isPlaying = false;
+      currentTime = 0;
+      playBtn.textContent = '▶ Play UGC Rehearsal';
+      updateFrame(0);
+    });
+
+    document.getElementById('copyScriptBtn').addEventListener('click', () => {
+      const fullVoiceover = cues.map(c => c.text).join(' ');
+      navigator.clipboard.writeText(fullVoiceover);
+      alert('Voiceover script copied to clipboard!');
+    });
+
+    document.getElementById('downloadSrtBtn').addEventListener('click', () => {
+      window.location.href = './halalin_ugc_subtitles.srt';
+    });
+
+    document.getElementById('copySeoBtn').addEventListener('click', () => {
+      const seoText = `Title: How to Check if Food is Halal, Gluten-Free & Kosher on Phone Camera | Halalin'\n\nTags: halal scanner, halalin, is it halal, pork detector, check pork ingredients, e471 halal or haram, gluten free scanner, kosher food scanner app, muslim travel guide europe\n\nHashtags: #HalalFood #MuslimTikTok #HalalTravel #HalalCheck #GlutenFreeLife #KosherFood #Halalin`;
+      navigator.clipboard.writeText(seoText);
+      alert('Full SEO Metadata copied!');
+    });
+
+    // Initial frame
+    updateFrame(0);
+  </script>
+</body>
+</html>
